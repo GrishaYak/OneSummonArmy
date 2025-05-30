@@ -1,0 +1,3 @@
+displayName = One Summon Army
+author = MindRib
+version = 0.1

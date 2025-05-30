@@ -1,0 +1,9 @@
+________________________________________________________________________________________________________________________
+						THIS MOD IS NOT DONE YET
+------------------------------------------------------------------------------------------------------------------------
+This mod will add new versions of vanila summon staffs and each of them will summon only one minion.
+The more summon slots you will spend on this minion the more power it will get.
+------------------------------------------------------------------------------------------------------------------------
+This mod won't add another versions of such summon staffs as "Abigail's Flower", "Stardust Dragon" and "Desert Tiger". 
+That's because they are already working this way.
+------------------------------------------------------------------------------------------------------------------------
