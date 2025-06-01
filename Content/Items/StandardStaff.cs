@@ -1,11 +1,4 @@
-﻿using OneSummonArmy.Content.Projectiles;
-using Microsoft.Xna.Framework;
-using System;
-using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
-using Terraria.ModLoader;
-using OneSummonArmy.Content.Buffs;
+﻿using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Items
 {

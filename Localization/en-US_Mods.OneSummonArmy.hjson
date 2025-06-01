@@ -5,4 +5,25 @@ Items: {
 		DisplayName: The Sword Of Destiny
 		Tooltip: It's cool
 	}
+
+	BirdStaff: {
+		DisplayName: Bird Staff
+		Tooltip: ""
+	}
+}
+
+Buffs: {
+	BirdBuff: {
+		DisplayName: Bird Buff
+		Description: Mods.OneSummonArmy.Buffs.BirdBuff.Description
+	}
+}
+
+Projectiles: {
+	Ara.DisplayName: Ara
+	BlueJay.DisplayName: Blue Jay
+	Finch.DisplayName: Finch
+	GoldenBird.DisplayName: Golden Bird
+	Toucan.DisplayName: Toucan
+	Nest.DisplayName: Nest
 }

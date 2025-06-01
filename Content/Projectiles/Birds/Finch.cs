@@ -12,10 +12,11 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class Finch : Bird
     {
+        
         public override void SetStaticDefaults()
         {
             // Sets the amount of frames this minion has on its spritesheet
-            Main.projFrames[Projectile.type] = 4;
+            Main.projFrames[Projectile.type] = 5;
             // This is necessary for right-click targeting
             ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
             Main.projPet[Projectile.type] = true; // Denotes that this projectile is a pet or minion
@@ -24,10 +25,11 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         }
         public sealed override void SetDefaults()
         {
-            Projectile.width = 18;
-            Projectile.height = 28;
+            Projectile.width = 30;
+            Projectile.height = 20;
             Projectile.tileCollide = false; // Makes the minion go through tiles freely
-
+            base.BasicSpeed = 8;
+            base.BasicInertia = 20;
             // These below are needed for a minion weapon
             Projectile.friendly = true; // Only controls if it deals damage to enemies on contact (more on that later)
             Projectile.minion = true; // Declares this as a minion (has many effects)
@@ -36,6 +38,6 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             Projectile.penetrate = -1; // Needed so the minion doesn't despawn on collision with enemies or tiles
         }
         
-
+        
     }
 }

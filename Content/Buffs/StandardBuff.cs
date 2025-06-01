@@ -1,17 +1,17 @@
-﻿using Microsoft.Xna.Framework;
-using System;
+﻿using OneSummonArmy.Content.Projectiles;
 using Terraria;
-using Terraria.DataStructures;
-using Terraria.ID;
 using Terraria.ModLoader;
-using OneSummonArmy.Content.Items;
-using OneSummonArmy.Content.Projectiles;
 
 namespace OneSummonArmy.Content.Buffs
 {
     public abstract class StandardBuff : ModBuff
     {
         public virtual int GetProjectileType() { return ModContent.ProjectileType<StandardMinion>(); }
+        public virtual int[] GetProjectileIds() 
+        { 
+            int[] a = [ModContent.ProjectileType<StandardMinion>()];
+            return a;
+        }
         public override void SetStaticDefaults()
         {
             Main.buffNoSave[Type] = false; // This buff will save when you exit the world
@@ -20,16 +20,17 @@ namespace OneSummonArmy.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            // If the minions exist reset the buff time, otherwise remove the buff from the player
-            if (player.ownedProjectileCounts[GetProjectileType()] > 0)
+            int[] projIds = GetProjectileIds();
+            foreach (int projId in projIds)
             {
-                player.buffTime[buffIndex] = 18000;
+                if (player.ownedProjectileCounts[projId] > 0)
+                {
+                    player.buffTime[buffIndex] = 18000;
+                    return;
+                }
             }
-            else
-            {
-                player.DelBuff(buffIndex);
-                buffIndex--;
-            }
+            player.DelBuff(buffIndex);
+            buffIndex--;
         }
     }
 }

@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using OneSummonArmy.Content.Buffs;
 using OneSummonArmy.Content.Projectiles.Birds;
+using OneSummonArmy.ID;
+using OneSummonArmy.Content.Extras;
 
 namespace OneSummonArmy.Content.Items
 {
@@ -22,7 +23,7 @@ namespace OneSummonArmy.Content.Items
         }
         public override void SetDefaults()
         {
-            Item.damage = 7;
+            Item.damage = 8;
             Item.knockBack = 4f;
             Item.mana = 10;
             Item.width = 26;
@@ -36,11 +37,11 @@ namespace OneSummonArmy.Content.Items
             Item.noMelee = true;
             Item.DamageType = DamageClass.Summon;
             Item.shootSpeed = 10f;
-            Item.shoot = ModContent.ProjectileType<Bird>();
+            Item.shoot = ModContent.ProjectileType<Finch>();
             Item.buffType = ModContent.BuffType<BirdBuff>();
             Item.autoReuse = true;
             Item.reuseDelay = 1;
-
+            Level = 1;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
@@ -61,31 +62,33 @@ namespace OneSummonArmy.Content.Items
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            // This is needed so the buff that keeps your minion alive and allows you to despawn it properly applies
-            if (!player.HasBuff<BirdBuff>())
+            int projId;
+            if (!player.HasBuff(Item.buffType))
             {
-                Level = 0;
+                player.AddBuff(Item.buffType, 2);
+                Level = 1;
+                ProjIdAndDamageByLevel(Level, out projId, out minionDamage);
+                Item.shoot = projId;
+                Projectile.NewProjectileDirect(source, position, velocity, projId, minionDamage, knockback, player.whoAmI);
+
+                Projectile.NewProjectile(source, player.position, Vector2.Zero, ModContent.ProjectileType<Nest>(), 0, 0f, player.whoAmI);
+                return false;
             }
-            Level += 1;
-            ProjIdAndDamageByLevel(Level, out int projId, out minionDamage);
-            Item.shoot = projId;
             player.AddBuff(Item.buffType, 2);
-            Vector2 newPos = position, v = velocity;
-            IEntitySource src = source;
+            int prevId = Item.shoot;
+            Level += 1;
+            ProjIdAndDamageByLevel(Level, out projId, out minionDamage);
+            Item.shoot = projId;
             foreach (var proj in Main.ActiveProjectiles)
             {
-                if (proj.owner == player.whoAmI && proj.type == ModContent.ProjectileType<Bird>())
+                if (proj.owner == player.whoAmI && proj.type == prevId)
                 {
-                    src = proj.GetSource_FromThis();
-                    newPos = proj.position;
-                    v = proj.velocity;
+                    Projectile.NewProjectileDirect(source, proj.position, proj.velocity,
+                        projId, minionDamage, knockback, player.whoAmI);
                     proj.Kill();
                     break;
                 }
             }
-            // Minions have to be spawned manually, then have originalDamage assigned to the damage of the summon item
-            Projectile.NewProjectileDirect(src, newPos, v, type, minionDamage, knockback, player.whoAmI);
-            // Since we spawned the projectile manually already, we do not need the game to spawn it for ourselves anymore, so return false
             return false;
         }
     }
