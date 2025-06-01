@@ -11,7 +11,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class Ara : Bird
     {
-        protected override void GetIdleFrames(out int l, out int r) { l = 0; r = 1; }
+        protected override int GetIdleFrame() { return 0; }
 
         protected override void GetMovingFrames(out int l, out int r) { l = 1; r = 6; }
 
