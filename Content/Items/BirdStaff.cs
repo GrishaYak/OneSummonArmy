@@ -62,6 +62,7 @@ namespace OneSummonArmy.Content.Items
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            
             int projId;
             if (!player.HasBuff(Item.buffType))
             {
@@ -71,7 +72,7 @@ namespace OneSummonArmy.Content.Items
                 Item.shoot = projId;
                 Projectile.NewProjectileDirect(source, position, velocity, projId, minionDamage, knockback, player.whoAmI);
 
-                Projectile.NewProjectile(source, player.position, Vector2.Zero, ModContent.ProjectileType<Nest>(), 0, 0f, player.whoAmI);
+//                Projectile.NewProjectile(source, player.position, Vector2.Zero, ModContent.ProjectileType<Nest>(), 0, 0f, player.whoAmI);
                 return false;
             }
             player.AddBuff(Item.buffType, 2);

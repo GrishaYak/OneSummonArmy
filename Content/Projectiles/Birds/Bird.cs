@@ -6,17 +6,18 @@ using OneSummonArmy.ID;
 using OneSummonArmy.AI;
 using System.Collections.Generic;
 using System;
+using Terraria.DataStructures;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public abstract class Bird : ModProjectile
     {
-        // Here you can decide if your minion breaks things like grass or pots
         bool isMooving = false;
-        protected float BasicSpeed {  get; set; }
-        protected float BasicInertia {  get; set; }
+        protected float BasicSpeed { get; set; }
+        protected float BasicInertia { get; set; }
 
         protected virtual int GetIdleFrame() { return 4; }
+
         protected virtual void GetMovingFrames(out int l, out int r)
         {
             l = 0;
@@ -40,6 +41,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 
             return true;
         }
+        
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -56,30 +58,23 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                     Projectile.frame = 0;
                 }
             }
-            float standardSpeed = 6f;
-            float maxSpeed = 8f;
+            float standardSpeed = BasicSpeed;
+            float maxSpeed = standardSpeed * 1.3f;
             int attackRange = 800;
             int attackTarget = -1;
-            Projectile.Minion_FindTargetInRange(attackRange, ref attackTarget, skipIfCannotHitWithOwnBody: false); /*
+            Projectile.Minion_FindTargetInRange(attackRange, ref attackTarget, skipIfCannotHitWithOwnBody: false); 
             if (attackTarget != -1)
             {
-                NPC nPC = Main.npc[attackTarget];
-                if (player.Distance(nPC.Center) > (float)attackRange)
-                {
-                    attackTarget = -1;
-                }
-            }
-            */
-            if (attackTarget != -1)
-            {
+                /*
                 if (!Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
                     Projectile.tileCollide = true;
                 }
-                NPC nPC2 = Main.npc[attackTarget];
-                float targetDistance = Projectile.Distance(nPC2.Center);
-                Rectangle rectangle = new Rectangle((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
-                Rectangle value = new Rectangle((int)nPC2.position.X, (int)nPC2.position.Y, nPC2.width, nPC2.height);
+                */
+                NPC enemy = Main.npc[attackTarget];
+                float targetDistance = Projectile.Distance(enemy.Center);
+                Rectangle rectangle = new((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+                Rectangle value = new((int)enemy.position.X, (int)enemy.position.Y, enemy.width, enemy.height);
                 if (rectangle.Intersects(value))
                 {
                     Projectile.tileCollide = false;
@@ -94,13 +89,13 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 }
                 else if (targetDistance > 150f)
                 {
-                    Vector2 direction = Projectile.DirectionTo(nPC2.Center);
+                    Vector2 direction = Projectile.DirectionTo(enemy.Center);
                     Projectile.velocity = Vector2.Lerp(Projectile.velocity, direction * standardSpeed, 0.15f);
                 }
                 else
                 {
                     Projectile.tileCollide = false;
-                    Vector2 direction = Projectile.DirectionTo(nPC2.Center);
+                    Vector2 direction = Projectile.DirectionTo(enemy.Center);
                     Projectile.velocity += new Vector2(Math.Sign(direction.X), Math.Sign(direction.Y)) * 0.35f;
                     if (Projectile.velocity.Length() > maxSpeed)
                     {
@@ -119,7 +114,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             Vector2 home = Projectile.AI_158_GetHomeLocation(player, index);
             float homeDistance = Projectile.Distance(home);
             bool flag = player.gravDir > 0f && player.fullRotation == 0f && player.headRotation == 0f;
-            if (homeDistance > 2000f || flag)
+            if (homeDistance > 2000f)
             {
                 Projectile.Center = home;
                 Projectile.frame = GetIdleFrame();
@@ -153,6 +148,15 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 Projectile.rotation = Projectile.velocity.X * 0.1f;
                 Projectile.direction = ((Projectile.velocity.X > 0f) ? 1 : (-1));
                 Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? 1 : (-1));
+            }
+            else if (flag)
+            {
+                Projectile.Center = home;
+                Projectile.frame = GetIdleFrame();
+                Projectile.frameCounter = 0;
+                Projectile.velocity = Vector2.Zero;
+                Projectile.direction = (Projectile.spriteDirection = player.direction);
+                Projectile.rotation = 0f;
             }
         }
     }

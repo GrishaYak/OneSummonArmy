@@ -1,4 +1,5 @@
 ﻿using OneSummonArmy.ID;
+using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
