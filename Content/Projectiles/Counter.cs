@@ -3,12 +3,14 @@ using Terraria.ModLoader;
 using OneSummonArmy.AI;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
+using OneSummonArmy.Content.Buffs;
 
 namespace OneSummonArmy.Content.Projectiles
 {
     public abstract class Counter : ModProjectile
     {
         int serial;
+        bool shouldWriteStats = true;
         protected virtual void SetAdditionalDefaults() { }
         public override void SetStaticDefaults()
         {
@@ -17,8 +19,7 @@ namespace OneSummonArmy.Content.Projectiles
         }
         public override void SetDefaults()
         {
-            Player player = Main.player[Projectile.owner];
-            serial = player.ownedProjectileCounts[Projectile.type];
+            Projectile.timeLeft = 2;
             Projectile.hide = true;
             Projectile.penetrate = -1;
             Projectile.minion = true;
@@ -26,9 +27,31 @@ namespace OneSummonArmy.Content.Projectiles
             Projectile.DamageType = DamageClass.Summon;
             SetAdditionalDefaults();
         }
+        bool CheckActive(Player owner)
+        {
+            if (owner.dead || !owner.active)
+            {
+                owner.ClearBuff(ModContent.BuffType<BirdBuff>());
+
+                return false;
+            }
+
+            if (owner.HasBuff(ModContent.BuffType<BirdBuff>()))
+            {
+                Projectile.timeLeft = 2;
+            }
+
+            return true;
+        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
+            CheckActive(player);
+            if (shouldWriteStats)
+            {
+                serial = player.ownedProjectileCounts[Projectile.type];
+                shouldWriteStats = false;
+            }
             int cnt = player.ownedProjectileCounts[Projectile.type];
             Vector2 home = AIs.CounterGetHome(player, serial, cnt);
             Projectile.Center = home;

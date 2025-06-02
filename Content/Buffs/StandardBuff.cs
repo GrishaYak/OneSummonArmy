@@ -7,11 +7,6 @@ namespace OneSummonArmy.Content.Buffs
     public abstract class StandardBuff : ModBuff
     {
         public virtual int GetProjectileType() { return ModContent.ProjectileType<StandardMinion>(); }
-        public virtual int[] GetProjectileIds() 
-        { 
-            int[] a = [ModContent.ProjectileType<StandardMinion>()];
-            return a;
-        }
         public override void SetStaticDefaults()
         {
             Main.buffNoSave[Type] = false; // This buff will save when you exit the world
@@ -20,14 +15,11 @@ namespace OneSummonArmy.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            int[] projIds = GetProjectileIds();
-            foreach (int projId in projIds)
+            int projId = GetProjectileType();
+            if (player.ownedProjectileCounts[projId] > 0)
             {
-                if (player.ownedProjectileCounts[projId] > 0)
-                {
-                    player.buffTime[buffIndex] = 18000;
-                    return;
-                }
+                player.buffTime[buffIndex] = 18000;
+                return;
             }
             player.DelBuff(buffIndex);
             buffIndex--;

@@ -26,4 +26,5 @@ Projectiles: {
 	GoldenBird.DisplayName: Golden Bird
 	Toucan.DisplayName: Toucan
 	Nest.DisplayName: Nest
+	BirdCounter.DisplayName: Bird Counter
 }

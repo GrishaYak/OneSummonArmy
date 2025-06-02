@@ -1,13 +1,14 @@
-﻿using OneSummonArmy.ID;
+﻿using OneSummonArmy.Content.Projectiles.Birds;
+using OneSummonArmy.ID;
 using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
     public class BirdBuff : StandardBuff
     {
-        public override int[] GetProjectileIds()
+        public override int GetProjectileType()
         {
-            return GetIds.GetBirdsIds();
+            return ModContent.ProjectileType<BirdCounter>();
         }
     }
 }

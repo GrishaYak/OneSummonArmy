@@ -7,13 +7,12 @@ using OneSummonArmy.Content.Buffs;
 using OneSummonArmy.Content.Projectiles.Birds;
 using OneSummonArmy.ID;
 using OneSummonArmy.Content.Extras;
+using log4net.Core;
 
 namespace OneSummonArmy.Content.Items
 {
     public class BirdStaff : ModItem
 	{
-        int Level {  get; set; }
-        private int minionDamage;
         public override void SetStaticDefaults()
         {
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true; // This lets the player target anywhere on the whole screen while using a controller
@@ -23,7 +22,7 @@ namespace OneSummonArmy.Content.Items
         }
         public override void SetDefaults()
         {
-            Item.damage = 8;
+            Item.damage = 7;
             Item.knockBack = 4f;
             Item.mana = 10;
             Item.width = 26;
@@ -37,19 +36,17 @@ namespace OneSummonArmy.Content.Items
             Item.noMelee = true;
             Item.DamageType = DamageClass.Summon;
             Item.shootSpeed = 10f;
-            Item.shoot = ModContent.ProjectileType<Finch>();
+            Item.shoot = ModContent.ProjectileType<BirdCounter>();
             Item.buffType = ModContent.BuffType<BirdBuff>();
             Item.autoReuse = true;
             Item.reuseDelay = 1;
-            Level = 1;
         }
         public override void ModifyShootStats(Player player, ref Vector2 position, ref Vector2 velocity, ref int type, ref int damage, ref float knockback)
         {
             position = Main.MouseWorld;
         }
-        private void ProjIdAndDamageByLevel(int level, out int id, out int damage)
+        private static void ProjIdByLevel(int level, out int id)
         {
-            damage = Item.damage * level;
             id = level switch
             {
                 1 => ModContent.ProjectileType<Finch>(),
@@ -62,30 +59,22 @@ namespace OneSummonArmy.Content.Items
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            
-            int projId;
-            if (!player.HasBuff(Item.buffType))
+            player.AddBuff(Item.buffType, 2);
+            int level = player.ownedProjectileCounts[Item.shoot] + 1;
+            Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
+            ProjIdByLevel(level, out int projId);
+            if (level == 1)
             {
-                player.AddBuff(Item.buffType, 2);
-                Level = 1;
-                ProjIdAndDamageByLevel(Level, out projId, out minionDamage);
-                Item.shoot = projId;
-                Projectile.NewProjectileDirect(source, position, velocity, projId, minionDamage, knockback, player.whoAmI);
-
+                Projectile.NewProjectileDirect(source, position, velocity, projId, damage, knockback, player.whoAmI);
 //                Projectile.NewProjectile(source, player.position, Vector2.Zero, ModContent.ProjectileType<Nest>(), 0, 0f, player.whoAmI);
                 return false;
             }
-            player.AddBuff(Item.buffType, 2);
-            int prevId = Item.shoot;
-            Level += 1;
-            ProjIdAndDamageByLevel(Level, out projId, out minionDamage);
-            Item.shoot = projId;
+            ProjIdByLevel(level - 1, out int prevId);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)
                 {
-                    Projectile.NewProjectileDirect(source, proj.position, proj.velocity,
-                        projId, minionDamage, knockback, player.whoAmI);
+                    Projectile.NewProjectileDirect(source, proj.position, proj.velocity, projId, damage, knockback, player.whoAmI);
                     proj.Kill();
                     break;
                 }
