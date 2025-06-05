@@ -9,6 +9,7 @@ namespace OneSummonArmy.Content.Projectiles
 {
     public abstract class Counter : ModProjectile
     {
+        protected int buffType = ModContent.BuffType<BirdBuff>();
         int serial;
         bool shouldWriteStats = true;
         protected virtual void SetAdditionalDefaults() { }
@@ -27,16 +28,16 @@ namespace OneSummonArmy.Content.Projectiles
             Projectile.DamageType = DamageClass.Summon;
             SetAdditionalDefaults();
         }
-        bool CheckActive(Player owner)
+        public virtual bool CheckActive(Player owner)
         {
             if (owner.dead || !owner.active)
             {
-                owner.ClearBuff(ModContent.BuffType<BirdBuff>());
+                owner.ClearBuff(buffType);
 
                 return false;
             }
 
-            if (owner.HasBuff(ModContent.BuffType<BirdBuff>()))
+            if (owner.HasBuff(buffType))
             {
                 Projectile.timeLeft = 2;
             }

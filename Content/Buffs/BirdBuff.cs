@@ -1,5 +1,4 @@
 ﻿using OneSummonArmy.Content.Projectiles.Birds;
-using OneSummonArmy.ID;
 using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs

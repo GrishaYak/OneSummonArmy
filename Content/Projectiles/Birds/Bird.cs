@@ -87,7 +87,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 totalIndexesInGroup = ++Projectile.frame;
                 if (totalIndexesInGroup >= r || totalIndexesInGroup < l)
                 {
-                    Projectile.frame = 0;
+                    Projectile.frame = l;
                 }
             }
             float standardSpeed = BasicSpeed;
@@ -131,7 +131,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? 1 : (-1));
                 return;
             }
-            List<int> ai158_blacklistedTargets = new List<int>();
+            List<int> ai158_blacklistedTargets = [];
             AIs.AI_GetMyGroupIndexAndFillBlackList(Projectile, ai158_blacklistedTargets, out var index, out var _);
             Projectile.localAI[0] = index;
             Vector2 home = Projectile.AI_158_GetHomeLocation(player, index);

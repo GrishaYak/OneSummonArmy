@@ -10,12 +10,22 @@ Items: {
 		DisplayName: Bird Staff
 		Tooltip: ""
 	}
+
+	SlimeStaff: {
+		Tooltip: ""
+		DisplayName: Slime Staff
+	}
 }
 
 Buffs: {
 	BirdBuff: {
 		DisplayName: Bird Buff
 		Description: Mods.OneSummonArmy.Buffs.BirdBuff.Description
+	}
+
+	SlimeBuff: {
+		Description: Mods.OneSummonArmy.Buffs.SlimeBuff.Description
+		DisplayName: Slime Buff
 	}
 }
 
@@ -27,4 +37,11 @@ Projectiles: {
 	Toucan.DisplayName: Toucan
 	Nest.DisplayName: Nest
 	BirdCounter.DisplayName: Bird Counter
+	RandomS.DisplayName: Random S
+	PinkS.DisplayName: Pink S
+	KingS.DisplayName: King S
+	GreenS.DisplayName: Green S
+	CopperS.DisplayName: Copper S
+	SlimeCounter.DisplayName: Slime Counter
+	YellowS.DisplayName: Yellow S
 }
