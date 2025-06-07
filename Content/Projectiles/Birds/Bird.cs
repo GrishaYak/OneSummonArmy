@@ -9,12 +9,12 @@ using System;
 using Terraria.DataStructures;
 using Terraria.ID;
 using log4net.Core;
+using System.Reflection;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public abstract class Bird : ModProjectile
     {
-        bool shouldWriteStats = true;
         protected float BasicSpeed { get; set; }
         protected float BasicInertia { get; set; }
         protected virtual void AdditionalStaticDefaults() { }
@@ -41,16 +41,19 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             Projectile.DamageType = DamageClass.Summon;
             Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
+            Projectile.hide = true;
+            AIs.GetMyGroupIndex(Projectile, out var index, out var _);
+            Projectile.localAI[0] = index;
             AdditionalDefaults();
         }
-
+        public override void DrawBehind(int index, List<int> behindNPCsAndTiles, List<int> behindNPCs, List<int> behindProjectiles,
+            List<int> overPlayers, List<int> overWires)
+        {
+            overPlayers.Add(index);
+        }
         protected virtual int GetIdleFrame() { return 4; }
 
-        protected virtual void GetMovingFrames(out int l, out int r)
-        {
-            l = 0;
-            r = 4;
-        }
+        protected virtual void GetMovingFrames(out int l, out int r) { l = 0; r = 4; }
         public override bool? CanCutTiles() { return false; }
         public override bool MinionContactDamage() { return true; }
         bool CheckActive(Player owner)
@@ -69,7 +72,10 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 
             return true;
         }
-        
+        protected Vector2 GetHomeLocation()
+        {
+            return Projectile.AI_158_GetHomeLocation(Main.player[Projectile.owner], (int) Projectile.localAI[0]);
+        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
@@ -77,9 +83,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             int level = player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()];
             Projectile.damage = 7 * level;
             Projectile.knockBack = 4 * (1 + (float)level * 0.1f);
-            shouldWriteStats = false;
-            int totalIndexesInGroup;
-            totalIndexesInGroup = ++Projectile.frameCounter;
+            int totalIndexesInGroup = ++Projectile.frameCounter;
             if (totalIndexesInGroup >= 6)
             {
                 Projectile.frameCounter = 0;
@@ -131,10 +135,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? 1 : (-1));
                 return;
             }
-            List<int> ai158_blacklistedTargets = [];
-            AIs.AI_GetMyGroupIndexAndFillBlackList(Projectile, ai158_blacklistedTargets, out var index, out var _);
-            Projectile.localAI[0] = index;
-            Vector2 home = Projectile.AI_158_GetHomeLocation(player, index);
+            Vector2 home = GetHomeLocation();
             float homeDistance = Projectile.Distance(home);
             bool flag = player.gravDir > 0f && player.fullRotation == 0f && player.headRotation == 0f;
             if (homeDistance > 2000f)
@@ -160,7 +161,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 Projectile.direction = ((Projectile.velocity.X > 0f) ? 1 : (-1));
                 Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? 1 : (-1));
             }
-            else if (homeDistance > 8f + player.velocity.Length())
+            else if (homeDistance > 15f + player.velocity.Length())
             {
                 Vector2 directionToHome = Projectile.DirectionTo(home);
                 Projectile.velocity += new Vector2(Math.Sign(directionToHome.X), Math.Sign(directionToHome.Y)) * 0.05f;
@@ -182,5 +183,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
                 Projectile.rotation = 0f;
             }
         }
+        
+        
     }
 }

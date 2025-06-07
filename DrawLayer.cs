@@ -1,113 +1,51 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Terraria.ModLoader.PlayerDrawLayer;
-using Terraria.DataStructures;
 using Terraria.ModLoader;
+using Terraria.DataStructures;
+using ReLogic.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework;
+using OneSummonArmy.ID;
+using Terraria.GameContent;
+using Terraria;
+using System.Collections.Generic;
 
 namespace OneSummonArmy
 {
-    internal class ModDrawLayer : PlayerDrawLayer
+    public class DrawLayer : PlayerDrawLayer
     {
-        /// <summary> The delegate of this method, which can either do the actual drawing or add draw data, depending on what kind of layer this is. </summary>
-        public delegate void DrawFunc(ref PlayerDrawSet info);
-
-        /// <summary> The delegate of this method, which can either do the actual drawing or add draw data, depending on what kind of layer this is. </summary>
-        public delegate bool Condition(PlayerDrawSet info);
-
-        private readonly DrawFunc drawFunc;
-
-        private readonly Condition condition;
-
-        private Transformation _transform;
-
-        private readonly string _name;
-
-        private readonly bool _isHeadLayer;
-
-        private readonly Position position;
-
-        public override Transformation Transform => this._transform;
-
-        public override string Name => this._name;
-
-        public override bool IsHeadLayer => this._isHeadLayer;
-
-        /// <summary> Creates a LegacyPlayerLayer with the given mod name, identifier name, and drawing action. </summary>
-        public ModDrawLayer(string name, DrawFunc drawFunc, Transformation transform = null, bool isHeadLayer = false, Condition condition = null, Position position = null)
+        public static void DrawPlayer_FinchNest(ref PlayerDrawSet drawinfo)
         {
-            this._name = name;
-            this.drawFunc = drawFunc;
-            this.condition = condition;
-            this.position = position;
-            this._transform = transform;
-            this._isHeadLayer = isHeadLayer;
+            Player player = drawinfo.drawPlayer;
+            int[] projIds = GetIds.GetBirdsIds();
+            bool ok = false;
+            foreach (int projId in projIds)
+            {
+                if (player.ownedProjectileCounts[projId] > 0)
+                {
+                    ok = true; break;
+                }
+            }
+            if (ok)
+            {
+                Rectangle bodyFrame5 = drawinfo.drawPlayer.bodyFrame;
+                bodyFrame5.Y = 0;
+                Vector2 vector6 = Vector2.Zero;
+                Color color8 = drawinfo.colorArmorHead;
+                if (drawinfo.drawPlayer.mount.Active && drawinfo.drawPlayer.mount.Type == 52)
+                {
+                    Vector2 mountedCenter = drawinfo.drawPlayer.MountedCenter;
+                    color8 = drawinfo.drawPlayer.GetImmuneAlphaPure(Lighting.GetColorClamped((int)mountedCenter.X / 16, (int)mountedCenter.Y / 16, Color.White), drawinfo.shadow);
+                    vector6 = new Vector2(0f, 6f) * drawinfo.drawPlayer.Directions;
+                }
+                DrawData item = new(TextureAssets.Extra[100].Value, vector6 + new Vector2((int)(drawinfo.Position.X - Main.screenPosition.X - (float)(drawinfo.drawPlayer.bodyFrame.Width / 2) + (float)(drawinfo.drawPlayer.width / 2)), (int)(drawinfo.Position.Y - Main.screenPosition.Y + (float)drawinfo.drawPlayer.height - (float)drawinfo.drawPlayer.bodyFrame.Height + 4f)) + drawinfo.drawPlayer.headPosition + drawinfo.headVect + Main.OffsetsPlayerHeadgear[drawinfo.drawPlayer.bodyFrame.Y / drawinfo.drawPlayer.bodyFrame.Height] * drawinfo.drawPlayer.gravDir, bodyFrame5, color8, drawinfo.drawPlayer.headRotation, drawinfo.headVect, 1f, drawinfo.playerEffect);
+                drawinfo.DrawDataCache.Add(item);
+            }
+
         }
+        public override Position GetDefaultPosition() => new AfterParent(PlayerDrawLayers.Head);
         protected override void Draw(ref PlayerDrawSet drawInfo)
         {
-            this.drawFunc(ref drawInfo);
+            DrawPlayer_FinchNest(ref drawInfo);
         }
-        public override Position GetDefaultPosition()
-        {
-            if (this.position != null)
-            {
-                return this.position;
-            }
-            int index;
-            for (index = 0; FixedVanillaLayers[index] != this; index++)
-            {
-            }
-            return new Between((index > 0) ? FixedVanillaLayers[index - 1] : null, (index < FixedVanillaLayers.Count - 1) ? FixedVanillaLayers[index + 1] : null);
-        }
-        internal static IReadOnlyList<PlayerDrawLayer> FixedVanillaLayers => new PlayerDrawLayer[45]
-    {
-        PlayerDrawLayers.JimsCloak,
-        PlayerDrawLayers.MountBack,
-        PlayerDrawLayers.Carpet,
-        PlayerDrawLayers.PortableStool,
-        PlayerDrawLayers.ElectrifiedDebuffBack,
-        PlayerDrawLayers.ForbiddenSetRing,
-        PlayerDrawLayers.SafemanSun,
-        PlayerDrawLayers.WebbedDebuffBack,
-        PlayerDrawLayers.LeinforsHairShampoo,
-        PlayerDrawLayers.Backpacks,
-        PlayerDrawLayers.Tails,
-        PlayerDrawLayers.Wings,
-        PlayerDrawLayers.HairBack,
-        PlayerDrawLayers.BackAcc,
-        PlayerDrawLayers.HeadBack,
-        PlayerDrawLayers.BalloonAcc,
-        PlayerDrawLayers.Skin,
-        PlayerDrawLayers.Leggings,
-        PlayerDrawLayers.Shoes,
-        PlayerDrawLayers.Robe,
-        PlayerDrawLayers.SkinLongCoat,
-        PlayerDrawLayers.ArmorLongCoat,
-        PlayerDrawLayers.Torso,
-        PlayerDrawLayers.OffhandAcc,
-        PlayerDrawLayers.WaistAcc,
-        PlayerDrawLayers.NeckAcc,
-        PlayerDrawLayers.Head,
-        PlayerDrawLayers.FinchNest,
-        PlayerDrawLayers.FaceAcc,
-        PlayerDrawLayers.MountFront,
-        PlayerDrawLayers.Pulley,
-        PlayerDrawLayers.JimsDroneRadio,
-        PlayerDrawLayers.FrontAccBack,
-        PlayerDrawLayers.Shield,
-        PlayerDrawLayers.SolarShield,
-        PlayerDrawLayers.ArmOverItem,
-        PlayerDrawLayers.HandOnAcc,
-        PlayerDrawLayers.BladedGlove,
-        PlayerDrawLayers.ProjectileOverArm,
-        PlayerDrawLayers.FrozenOrWebbedDebuff,
-        PlayerDrawLayers.ElectrifiedDebuffFront,
-        PlayerDrawLayers.IceBarrier,
-        PlayerDrawLayers.CaptureTheGem,
-        PlayerDrawLayers.BeetleBuff,
-        PlayerDrawLayers.EyebrellaCloud
-    };
     }
 }

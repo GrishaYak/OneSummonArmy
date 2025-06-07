@@ -54,7 +54,7 @@ namespace OneSummonArmy.AI
             vec.Y += master.gfxOffY;
             return vec.Floor();
         }
-        public static void AI_GetMyGroupIndexAndFillBlackList(Projectile proj, List<int> blackListedTargets, out int index, out int totalIndexesInGroup)
+        public static void GetMyGroupIndex(Projectile proj, out int index, out int totalIndexesInGroup)
         {
             index = 0;
             totalIndexesInGroup = 0;

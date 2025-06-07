@@ -1,5 +1,4 @@
 ﻿using OneSummonArmy.Content.Projectiles.Birds;
-using OneSummonArmy.Content.Projectiles.Slimes;
 using Terraria.ModLoader;
 
 namespace OneSummonArmy.ID
@@ -14,18 +13,6 @@ namespace OneSummonArmy.ID
                 ModContent.ProjectileType<Finch>(),
                 ModContent.ProjectileType<GoldenBird>()];
             return a;
-        }
-
-
-        public static int[] GetSlimesIds()
-        {
-            int[] s = [ModContent.ProjectileType<GreenS>(),
-                ModContent.ProjectileType<PinkS>(),
-                ModContent.ProjectileType<YellowS>(),
-                ModContent.ProjectileType<CopperS>(),
-                ModContent.ProjectileType<KingS>(),
-                ModContent.ProjectileType<RandomS>()];
-            return s;
         }
     }
 }

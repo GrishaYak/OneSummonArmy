@@ -74,7 +74,7 @@ namespace OneSummonArmy.Content.Items
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)
                 {
-                    Projectile.NewProjectileDirect(source, proj.position, proj.velocity, projId, damage, knockback, player.whoAmI);
+                    Projectile.NewProjectileDirect(source, proj.position + new Vector2(5, 5), proj.velocity, projId, damage, knockback, player.whoAmI);
                     proj.Kill();
                     break;
                 }
