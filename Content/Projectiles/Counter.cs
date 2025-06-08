@@ -17,11 +17,12 @@ namespace OneSummonArmy.Content.Projectiles
         {
             Main.projFrames[Projectile.type] = 6;
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
+            Main.projPet[Projectile.type] = true;
         }
         public override void SetDefaults()
         {
             Projectile.timeLeft = 2;
-            Projectile.hide = false;
+            Projectile.hide = true;
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.minionSlots = 1f;

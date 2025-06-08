@@ -71,13 +71,21 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         protected virtual Vector2 GetHomeLocation()
         {
             var home = Projectile.AI_158_GetHomeLocation(Main.player[Projectile.owner], (int) Projectile.localAI[0]);
-            return home + new Vector2(-1, -12);
+            return home;
         }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
             CheckActive(player);
             int level = player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()];
+            if (Projectile.type != AIs.BirdIdByLevel(level))
+            {
+                var source = player.GetSource_FromThis();
+                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.BirdIdByLevel(level), 0, 0);
+                proj.Center = Projectile.Center;
+                Projectile.Kill();
+                return;
+            }
             Projectile.damage = 7 * level;
             Projectile.knockBack = 4 * (1 + (float)level * 0.1f);
             int totalIndexesInGroup = ++Projectile.frameCounter;

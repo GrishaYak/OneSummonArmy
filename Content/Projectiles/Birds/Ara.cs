@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
@@ -17,6 +18,14 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             Projectile.width = 46;
             Projectile.height = 40;
             base.BasicSpeed = 12;
+        }
+        protected override Vector2 GetHomeLocation()
+        {
+            var player = Main.player[Projectile.owner];
+            var home =  base.GetHomeLocation();
+            home.Y += 18;
+            home.X -= player.direction * 10;
+            return home;
         }
     }
 }

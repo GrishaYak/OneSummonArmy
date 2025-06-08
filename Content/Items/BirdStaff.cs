@@ -5,6 +5,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using OneSummonArmy.Content.Buffs;
 using OneSummonArmy.Content.Projectiles.Birds;
+using OneSummonArmy.AI;
 
 namespace OneSummonArmy.Content.Items
 {
@@ -42,25 +43,15 @@ namespace OneSummonArmy.Content.Items
         {
             position = Main.MouseWorld;
         }
-        private static int ProjIdByLevel(int level)
-        {
-            return level switch
-            {
-                1 => ModContent.ProjectileType<Finch>(),
-                2 => ModContent.ProjectileType<BlueJay>(),
-                3 => ModContent.ProjectileType<GoldenBird>(),
-                4 => ModContent.ProjectileType<Toucan>(),
-                _ => ModContent.ProjectileType<Ara>(),
-            };
-        }
 
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
+            if (player.numMinions == player.maxMinions) { return false; }
             player.AddBuff(Item.buffType, 2);
             int level = player.ownedProjectileCounts[Item.shoot] + 1;
             Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            int projId = ProjIdByLevel(level);
-            int prevId = ProjIdByLevel(level - 1);
+            int projId = AIs.BirdIdByLevel(level);
+            int prevId = AIs.BirdIdByLevel(level - 1);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)
@@ -73,6 +64,12 @@ namespace OneSummonArmy.Content.Items
             }
             Projectile.NewProjectileDirect(source, position, velocity, projId, damage, knockback, player.whoAmI);
             return false;
+        }
+        public override void AddRecipes()
+        {
+            Recipe recipe = CreateRecipe();
+            recipe.AddRecipeGroup("Birds");
+            recipe.AddIngredient(ItemID.LivingWoodWand);
         }
     }
 }

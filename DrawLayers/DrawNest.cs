@@ -13,8 +13,8 @@ namespace OneSummonArmy.DrawLayers
         protected override void Draw(ref PlayerDrawSet drawinfo)
         {
             Player player = drawinfo.drawPlayer;
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()] == 0) { return; }
-
+            int level = player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()];
+            if (level == 0 || level > 4) { return; }
             Rectangle bodyFrame = drawinfo.drawPlayer.bodyFrame;
             bodyFrame.Y = 0;
             Vector2 vector = Vector2.Zero;

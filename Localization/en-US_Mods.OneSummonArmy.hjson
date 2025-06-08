@@ -1,14 +1,9 @@
 # This file will automatically update with entries for new content after a build and reload.
 
 Items: {
-	TheSwordOfDestiny: {
-		DisplayName: The Sword Of Destiny
-		Tooltip: It's cool
-	}
-
 	BirdStaff: {
 		DisplayName: Bird Staff
-		Tooltip: ""
+		Tooltip: Summons a bird that will fight for you
 	}
 
 	SlimeStaff: {
@@ -19,8 +14,8 @@ Items: {
 
 Buffs: {
 	BirdBuff: {
-		DisplayName: Bird Buff
-		Description: Mods.OneSummonArmy.Buffs.BirdBuff.Description
+		DisplayName: Bird
+		Description: A bird is fighting for you
 	}
 
 	SlimeBuff: {

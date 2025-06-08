@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using OneSummonArmy.Content.Projectiles.Birds;
 using System;
 using System.Collections.Generic;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace OneSummonArmy.AI
 {
@@ -71,5 +73,18 @@ namespace OneSummonArmy.AI
                 }
             }
         }
+
+        public static int BirdIdByLevel(int level)
+        {
+            return level switch
+            {
+                1 => ModContent.ProjectileType<Finch>(),
+                2 => ModContent.ProjectileType<BlueJay>(),
+                3 => ModContent.ProjectileType<GoldenBird>(),
+                4 => ModContent.ProjectileType<Toucan>(),
+                _ => ModContent.ProjectileType<Ara>(),
+            };
+        }
+
     }
 }
