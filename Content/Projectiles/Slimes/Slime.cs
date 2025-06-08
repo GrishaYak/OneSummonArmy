@@ -15,7 +15,9 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
 {
     public abstract class Slime : ModProjectile
     {
-        bool shouldWriteStats = true;
+        bool onTildeCollide_checker = true;
+        float n = 0f;
+        int onGroundCounter = 0;
         protected float BasicSpeed { get; set; }
         protected float BasicInertia { get; set; }
         protected virtual void AdditionalStaticDefaults() { }
@@ -31,9 +33,10 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
         protected virtual void AdditionalDefaults() { }
         public override void SetDefaults()
         {
+            //Projectile.extraUpdates = 1;
             Projectile.timeLeft = 2;
             Projectile.width = 44;
-            Projectile.height = 30;
+            Projectile.height = 28;
             BasicSpeed = 8;
             BasicInertia = 20;
             Projectile.tileCollide = true;
@@ -86,9 +89,12 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
             Projectile.knockBack = 4 * (1 + (float)level * 0.1f);
 
 
-            if (player.wingTime + player.rocketTime < player.wingTimeMax + player.rocketTimeMax)
+            if (Math.Abs(player.position.Y - Projectile.position.Y) >= 480)
             {
+                Projectile.width = 44;
                 Projectile.tileCollide = false;
+                onTildeCollide_checker = false;
+                
                 int totalIndexesInGroup;
                 totalIndexesInGroup = ++Projectile.frameCounter;
                 GetMovingFramesInFly(out var l, out var r);
@@ -177,16 +183,23 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
                     Projectile.velocity.X = -0.15f;
                     Projectile.velocity.Y = -0.05f;
                 }
-                Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? -1 : (1));
+                if (Projectile.velocity.X != 0)
+                {
+                    Projectile.direction = ((Projectile.velocity.X > 0f) ? -1 : (1));
+                    Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? -1 : (1));
+                }
+                else { Projectile.direction = - player.direction; Projectile.spriteDirection = - player.direction; }
             }
 
             else
             {
+                Projectile.width = 26;
                 Projectile.tileCollide = true;
+                onTildeCollide_checker = true;
                 int totalIndexesInGroup;
                 totalIndexesInGroup = ++Projectile.frameCounter;
                 GetMovingFramesOnEarth(out var l, out var r);
-                if (totalIndexesInGroup >= 6)
+                if (totalIndexesInGroup >= 24)
                 {
                     Projectile.frameCounter = 0;
 
@@ -196,13 +209,32 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
                         Projectile.frame = l;
                     }
                 }
-                Projectile.velocity = new Vector2 (0, 0);
-                Projectile.position.X = player.Center.X + 50 * -player.direction;
-                Projectile.position.Y = player.Center.Y - 48;
+                Projectile.velocity.X = player.velocity.X * 1.1f;
+                if (Projectile.velocity.X != 0f)
+                {
+                    Projectile.direction = ((Projectile.velocity.X > 0f) ? -1 : (1));
+                    Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? -1 : (1));
+                }
+                else { Projectile.direction = - player.direction;  Projectile.spriteDirection = - player.direction; }
+                    Projectile.velocity.Y += 0.25f; 
+                n += 1f; 
+                
+                
             }
 
 
         }
 
+        public override bool OnTileCollide(Vector2 oldVelocity)
+        {
+            if (onTildeCollide_checker && Main.player[Projectile.owner].velocity.X != 0 && onGroundCounter >= 1)
+            {
+                Projectile.velocity.Y = -4f;
+                n = 0f;
+                onGroundCounter = 0;
+            }
+            else { onGroundCounter++; } // Projectile.velocity.X = 0; }
+            return false;
+        }
     }
 }
