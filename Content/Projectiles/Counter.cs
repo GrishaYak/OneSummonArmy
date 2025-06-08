@@ -4,6 +4,7 @@ using OneSummonArmy.AI;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using OneSummonArmy.Content.Buffs;
+using Terraria.DataStructures;
 
 namespace OneSummonArmy.Content.Projectiles
 {
@@ -11,7 +12,6 @@ namespace OneSummonArmy.Content.Projectiles
     {
         protected int buffType = ModContent.BuffType<BirdBuff>();
         int serial;
-        bool shouldWriteStats = true;
         protected virtual void SetAdditionalDefaults() { }
         public override void SetStaticDefaults()
         {
@@ -21,12 +21,17 @@ namespace OneSummonArmy.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.timeLeft = 2;
-            Projectile.hide = true;
+            Projectile.hide = false;
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.minionSlots = 1f;
             Projectile.DamageType = DamageClass.Summon;
+            Projectile.tileCollide = false;
             SetAdditionalDefaults();
+        }
+        public override void OnSpawn(IEntitySource source)
+        {
+            serial = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
         }
         public virtual bool CheckActive(Player owner)
         {
@@ -48,11 +53,6 @@ namespace OneSummonArmy.Content.Projectiles
         {
             Player player = Main.player[Projectile.owner];
             CheckActive(player);
-            if (shouldWriteStats)
-            {
-                serial = player.ownedProjectileCounts[Projectile.type];
-                shouldWriteStats = false;
-            }
             int cnt = player.ownedProjectileCounts[Projectile.type];
             Vector2 home = AIs.CounterGetHome(player, serial, cnt);
             Projectile.Center = home;

@@ -5,9 +5,6 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using OneSummonArmy.Content.Buffs;
 using OneSummonArmy.Content.Projectiles.Birds;
-using OneSummonArmy.ID;
-using OneSummonArmy.Content.Extras;
-using log4net.Core;
 
 namespace OneSummonArmy.Content.Items
 {
@@ -45,9 +42,9 @@ namespace OneSummonArmy.Content.Items
         {
             position = Main.MouseWorld;
         }
-        private static void ProjIdByLevel(int level, out int id)
+        private static int ProjIdByLevel(int level)
         {
-            id = level switch
+            return level switch
             {
                 1 => ModContent.ProjectileType<Finch>(),
                 2 => ModContent.ProjectileType<BlueJay>(),
@@ -62,23 +59,19 @@ namespace OneSummonArmy.Content.Items
             player.AddBuff(Item.buffType, 2);
             int level = player.ownedProjectileCounts[Item.shoot] + 1;
             Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            ProjIdByLevel(level, out int projId);
-            if (level == 1)
-            {
-                Projectile.NewProjectileDirect(source, position, velocity, projId, damage, knockback, player.whoAmI);
-//                Projectile.NewProjectile(source, player.position, Vector2.Zero, ModContent.ProjectileType<Nest>(), 0, 0f, player.whoAmI);
-                return false;
-            }
-            ProjIdByLevel(level - 1, out int prevId);
+            int projId = ProjIdByLevel(level);
+            int prevId = ProjIdByLevel(level - 1);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)
                 {
-                    Projectile.NewProjectileDirect(source, proj.position + new Vector2(5, 5), proj.velocity, projId, damage, knockback, player.whoAmI);
+                    var newProj = Projectile.NewProjectileDirect(source, proj.position, proj.velocity, projId, damage, knockback, player.whoAmI);
+                    newProj.Center = proj.Center;
                     proj.Kill();
-                    break;
+                    return false;
                 }
             }
+            Projectile.NewProjectileDirect(source, position, velocity, projId, damage, knockback, player.whoAmI);
             return false;
         }
     }

@@ -4,9 +4,6 @@ using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 using OneSummonArmy.Content.Buffs;
-using OneSummonArmy.Content.Projectiles.Birds;
-using OneSummonArmy.ID;
-using OneSummonArmy.Content.Extras;
 using OneSummonArmy.Content.Projectiles.Slimes;
 
 namespace OneSummonArmy.Content.Items

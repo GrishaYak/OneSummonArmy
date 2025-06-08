@@ -2,14 +2,10 @@
 using Terraria;
 using Terraria.ModLoader;
 using OneSummonArmy.Content.Buffs;
-using OneSummonArmy.ID;
 using OneSummonArmy.AI;
 using System.Collections.Generic;
 using System;
-using Terraria.DataStructures;
 using Terraria.ID;
-using log4net.Core;
-using System.Reflection;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
@@ -72,9 +68,10 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 
             return true;
         }
-        protected Vector2 GetHomeLocation()
+        protected virtual Vector2 GetHomeLocation()
         {
-            return Projectile.AI_158_GetHomeLocation(Main.player[Projectile.owner], (int) Projectile.localAI[0]);
+            var home = Projectile.AI_158_GetHomeLocation(Main.player[Projectile.owner], (int) Projectile.localAI[0]);
+            return home + new Vector2(-1, -12);
         }
         public override void AI()
         {
