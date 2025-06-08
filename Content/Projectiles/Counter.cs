@@ -3,14 +3,12 @@ using Terraria.ModLoader;
 using OneSummonArmy.AI;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
-using OneSummonArmy.Content.Buffs;
 using Terraria.DataStructures;
 
 namespace OneSummonArmy.Content.Projectiles
 {
-    public abstract class Counter : ModProjectile
+    public abstract class Counter(int buffType) : ModProjectile
     {
-        protected int buffType = ModContent.BuffType<BirdBuff>();
         int serial;
         protected virtual void SetAdditionalDefaults() { }
         public override void SetStaticDefaults()

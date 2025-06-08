@@ -5,9 +5,6 @@ namespace OneSummonArmy.Content.Buffs
 {
     public class SlimeBuff : StandardBuff
     {
-        public override int GetProjectileType()
-        {
-            return ModContent.ProjectileType<SlimeCounter>();
-        }
+        public SlimeBuff() : base(ModContent.ProjectileType<SlimeCounter>()) { }
     }
 }

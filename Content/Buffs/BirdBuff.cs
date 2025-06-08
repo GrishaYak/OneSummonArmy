@@ -5,9 +5,6 @@ namespace OneSummonArmy.Content.Buffs
 {
     public class BirdBuff : StandardBuff
     {
-        public override int GetProjectileType()
-        {
-            return ModContent.ProjectileType<BirdCounter>();
-        }
+        public BirdBuff() : base(ModContent.ProjectileType<BirdCounter>()) { }
     }
 }
