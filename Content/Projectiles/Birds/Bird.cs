@@ -9,10 +9,12 @@ using Terraria.ID;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
-    public abstract class Bird : ModProjectile
+    public abstract class Bird(int idleFrame = 4, int movingFrameStart = 0, int movingFrameEnd = 4, int basicSpeed = 8) : ModProjectile()
     {
-        protected float BasicSpeed { get; set; }
-        protected float BasicInertia { get; set; }
+        readonly int idleFrame = idleFrame;
+        readonly float basicSpeed = basicSpeed;
+        readonly int movingFramesL = movingFrameStart, movingFramesR = movingFrameEnd;
+
         protected virtual void AdditionalStaticDefaults() { }
         public override void SetStaticDefaults()
         {
@@ -29,15 +31,13 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             Projectile.timeLeft = 2;
             Projectile.width = 30;
             Projectile.height = 20;
-            BasicSpeed = 8;
-            BasicInertia = 20;
             Projectile.tileCollide = false;
             Projectile.friendly = true;
             Projectile.minion = true;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
-            Projectile.hide = true;
+            Projectile.hide = false;
             AIs.GetMyGroupIndex(Projectile, out var index, out var _);
             Projectile.localAI[0] = index;
             AdditionalDefaults();
@@ -47,9 +47,6 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         {
             overPlayers.Add(index);
         }
-        protected virtual int GetIdleFrame() { return 4; }
-
-        protected virtual void GetMovingFrames(out int l, out int r) { l = 0; r = 4; }
         public override bool? CanCutTiles() { return false; }
         public override bool MinionContactDamage() { return true; }
         bool CheckActive(Player owner)
@@ -76,6 +73,23 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];
+            General(ref player);
+            AnimateMovement();
+
+            int attackTarget = FindTarget(800);
+            if (attackTarget != -1)
+            {
+                Attack(attackTarget);
+            }
+            else
+            {
+                GoHome(player);
+            }
+
+        }
+            
+        private void General(ref Player player)
+        {
             CheckActive(player);
             int level = player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()];
             if (Projectile.type != AIs.BirdIdByLevel(level))
@@ -88,73 +102,76 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             }
             Projectile.damage = 7 * level;
             Projectile.knockBack = 4 * (1 + (float)level * 0.1f);
+        }
+        private void AnimateMovement()
+        {
             int totalIndexesInGroup = ++Projectile.frameCounter;
             if (totalIndexesInGroup >= 6)
             {
                 Projectile.frameCounter = 0;
-                GetMovingFrames(out var l, out var r);
                 totalIndexesInGroup = ++Projectile.frame;
-                if (totalIndexesInGroup >= r || totalIndexesInGroup < l)
+                if (totalIndexesInGroup >= movingFramesR || totalIndexesInGroup < movingFramesL)
                 {
-                    Projectile.frame = l;
+                    Projectile.frame = movingFramesL;
                 }
             }
-            float standardSpeed = BasicSpeed;
-            float maxSpeed = standardSpeed * 1.3f;
-            int attackRange = 800;
+        }
+        private int FindTarget(int range)
+        {
             int attackTarget = -1;
-            Projectile.Minion_FindTargetInRange(attackRange, ref attackTarget, skipIfCannotHitWithOwnBody: false); 
-            if (attackTarget != -1)
+            Projectile.Minion_FindTargetInRange(range, ref attackTarget, skipIfCannotHitWithOwnBody: false);
+            return attackTarget;
+        }
+        private void Attack(int attackTarget)
+        {
+            float maxSpeed = basicSpeed * 1.3f;
+            NPC enemy = Main.npc[attackTarget];
+            float targetDistance = Projectile.Distance(enemy.Center);
+            Rectangle myHitbox = new((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
+            Rectangle enemyHitbox = new((int)enemy.position.X, (int)enemy.position.Y, enemy.width, enemy.height);
+            if (myHitbox.Intersects(enemyHitbox))
             {
-                NPC enemy = Main.npc[attackTarget];
-                float targetDistance = Projectile.Distance(enemy.Center);
-                Rectangle rectangle = new((int)Projectile.position.X, (int)Projectile.position.Y, Projectile.width, Projectile.height);
-                Rectangle value = new((int)enemy.position.X, (int)enemy.position.Y, enemy.width, enemy.height);
-                if (rectangle.Intersects(value))
+                if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < maxSpeed)
                 {
-                    if (Math.Abs(Projectile.velocity.X) + Math.Abs(Projectile.velocity.Y) < maxSpeed)
-                    {
-                        Projectile.velocity *= 1.1f;
-                    }
-                    if (Projectile.velocity.Length() > maxSpeed)
-                    {
-                        Projectile.velocity *= maxSpeed / Projectile.velocity.Length();
-                    }
+                    Projectile.velocity *= 1.1f;
                 }
-                else if (targetDistance > 150f)
+                if (Projectile.velocity.Length() > maxSpeed)
                 {
-                    Vector2 direction = Projectile.DirectionTo(enemy.Center);
-                    Projectile.velocity = Vector2.Lerp(Projectile.velocity, direction * standardSpeed, 0.15f);
+                    Projectile.velocity *= maxSpeed / Projectile.velocity.Length();
                 }
-                else
-                {
-                    Vector2 direction = Projectile.DirectionTo(enemy.Center);
-                    Projectile.velocity += new Vector2(Math.Sign(direction.X), Math.Sign(direction.Y)) * 0.35f;
-                    if (Projectile.velocity.Length() > maxSpeed)
-                    {
-                        Projectile.velocity *= maxSpeed / Projectile.velocity.Length();
-                    }
-                }
-                Projectile.rotation = Projectile.velocity.X * 0.1f;
-                Projectile.direction = ((Projectile.velocity.X > 0f) ? 1 : (-1));
-                Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? 1 : (-1));
-                return;
             }
+            else if (targetDistance > 150f)
+            {
+                Vector2 direction = Projectile.DirectionTo(enemy.Center);
+                Projectile.velocity = Vector2.Lerp(Projectile.velocity, direction * basicSpeed, 0.15f);
+            }
+            else
+            {
+                Vector2 direction = Projectile.DirectionTo(enemy.Center);
+                Projectile.velocity += new Vector2(Math.Sign(direction.X), Math.Sign(direction.Y)) * 0.35f;
+                if (Projectile.velocity.Length() > maxSpeed)
+                {
+                    Projectile.velocity *= maxSpeed / Projectile.velocity.Length();
+                }
+            }
+            Projectile.rotation = Projectile.velocity.X * 0.1f;
+            Projectile.direction = ((Projectile.velocity.X > 0f) ? 1 : (-1));
+            Projectile.spriteDirection = ((Projectile.velocity.X > 0f) ? 1 : (-1));
+            return;
+            
+        }
+        private void GoHome(Player player) 
+        {
             Vector2 home = GetHomeLocation();
             float homeDistance = Projectile.Distance(home);
             bool flag = player.gravDir > 0f && player.fullRotation == 0f && player.headRotation == 0f;
             if (homeDistance > 2000f)
             {
-                Projectile.Center = home;
-                Projectile.frame = GetIdleFrame();
-                Projectile.frameCounter = 0;
-                Projectile.velocity = Vector2.Zero;
-                Projectile.direction = (Projectile.spriteDirection = player.direction);
-                Projectile.rotation = 0f;
+                SitAtHome(home, player);
             }
             else if (homeDistance > 40f)
             {
-                float newMaxSpeed = standardSpeed + homeDistance * 0.006f;
+                float newMaxSpeed = basicSpeed + homeDistance * 0.006f;
                 Vector2 directionToHome = Projectile.DirectionTo(home);
                 directionToHome *= MathHelper.Lerp(1f, 5f, Utils.GetLerpValue(40f, 800f, homeDistance, clamped: true));
                 Projectile.velocity = Vector2.Lerp(Projectile.velocity, directionToHome * newMaxSpeed, 0.025f);
@@ -170,9 +187,9 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             {
                 Vector2 directionToHome = Projectile.DirectionTo(home);
                 Projectile.velocity += new Vector2(Math.Sign(directionToHome.X), Math.Sign(directionToHome.Y)) * 0.05f;
-                if (Projectile.velocity.Length() > standardSpeed)
+                if (Projectile.velocity.Length() > basicSpeed)
                 {
-                    Projectile.velocity *= standardSpeed / Projectile.velocity.Length();
+                    Projectile.velocity *= basicSpeed / Projectile.velocity.Length();
                 }
                 Projectile.rotation = Projectile.velocity.X * 0.1f;
                 Projectile.direction = ((Projectile.velocity.X > 0f) ? 1 : (-1));
@@ -180,15 +197,17 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             }
             else if (flag)
             {
-                Projectile.Center = home;
-                Projectile.frame = GetIdleFrame();
-                Projectile.frameCounter = 0;
-                Projectile.velocity = Vector2.Zero;
-                Projectile.direction = (Projectile.spriteDirection = player.direction);
-                Projectile.rotation = 0f;
+                SitAtHome(home, player);
             }
         }
-        
-        
+        private void SitAtHome(Vector2 home, Player player)
+        {
+            Projectile.Center = home;
+            Projectile.frame = idleFrame;
+            Projectile.frameCounter = 0;
+            Projectile.velocity = Vector2.Zero;
+            Projectile.direction = (Projectile.spriteDirection = player.direction);
+            Projectile.rotation = 0f;
+        }
     }
 }

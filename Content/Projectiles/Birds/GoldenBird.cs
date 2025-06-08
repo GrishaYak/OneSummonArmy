@@ -5,10 +5,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class GoldenBird : Bird
     {
-        protected override void AdditionalDefaults()
-        {
-            base.BasicSpeed = 10;
-        }
+        public GoldenBird() : base(basicSpeed: 10) { }
         protected override Vector2 GetHomeLocation()
         {
             var home = base.GetHomeLocation();

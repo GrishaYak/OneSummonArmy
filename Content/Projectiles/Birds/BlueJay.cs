@@ -4,10 +4,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class BlueJay : Bird
     {
-        protected override void AdditionalDefaults()
-        {
-            base.BasicSpeed = 9;
-        }
+        public BlueJay() : base(basicSpeed: 9) { }
         protected override Vector2 GetHomeLocation()
         {
             var home = base.GetHomeLocation();

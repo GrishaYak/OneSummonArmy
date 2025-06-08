@@ -5,9 +5,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class Toucan : Bird
     {
-        protected override int GetIdleFrame() { return 0; }
-
-        protected override void GetMovingFrames(out int l, out int r) { l = 1; r = 6; }
+        public Toucan() : base(idleFrame: 0, movingFrameStart: 1, movingFrameEnd: 6, basicSpeed: 11) { }
 
         protected override void AdditionalStaticDefaults()
         {
@@ -17,7 +15,6 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         {
             Projectile.width = 46;
             Projectile.height = 40;
-            base.BasicSpeed = 11;
         }
         protected override Vector2 GetHomeLocation()
         {
