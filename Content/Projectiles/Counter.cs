@@ -7,7 +7,7 @@ using Terraria.DataStructures;
 
 namespace OneSummonArmy.Content.Projectiles
 {
-    public abstract class Counter(int buffType) : ModProjectile
+    public abstract class Counter(int buffType) : ModProjectile()
     {
         int serial;
         protected virtual void SetAdditionalDefaults() { }
@@ -20,7 +20,7 @@ namespace OneSummonArmy.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.timeLeft = 2;
-            Projectile.hide = true;
+            Projectile.hide = false;
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.minionSlots = 1f;

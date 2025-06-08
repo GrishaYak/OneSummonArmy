@@ -10,6 +10,11 @@ Items: {
 		Tooltip: ""
 		DisplayName: Slime Staff
 	}
+
+	HornetStaff: {
+		Tooltip: ""
+		DisplayName: Hornet Staff
+	}
 }
 
 Buffs: {
@@ -21,6 +26,11 @@ Buffs: {
 	SlimeBuff: {
 		Description: Mods.OneSummonArmy.Buffs.SlimeBuff.Description
 		DisplayName: Slime Buff
+	}
+
+	HornetBuff: {
+		Description: Mods.OneSummonArmy.Buffs.HornetBuff.Description
+		DisplayName: Hornet Buff
 	}
 }
 
@@ -39,4 +49,10 @@ Projectiles: {
 	CopperS.DisplayName: Copper S
 	SlimeCounter.DisplayName: Slime Counter
 	YellowS.DisplayName: Yellow S
+	DoubleHornet.DisplayName: Double Hornet
+	HornetCounter.DisplayName: Hornet Counter
+	RifleHornet.DisplayName: Rifle Hornet
+	ShotgunHornet.DisplayName: Shotgun Hornet
+	TripleHornet.DisplayName: Triple Hornet
+	VanilaHornet.DisplayName: Vanila Hornet
 }

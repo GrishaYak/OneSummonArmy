@@ -4,8 +4,9 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
-    public abstract class StandardBuff(int minionType) : ModBuff
+    public abstract class StandardBuff(int minionType) : ModBuff()
     {
+        public virtual int GetProjectileType() { return ModContent.ProjectileType<StandardMinion>(); }
         public override void SetStaticDefaults()
         {
             Main.buffNoSave[Type] = false; // This buff will save when you exit the world
@@ -14,13 +15,13 @@ namespace OneSummonArmy.Content.Buffs
 
         public override void Update(Player player, ref int buffIndex)
         {
-            if (player.ownedProjectileCounts[minionType] > 0)
+            int projId = GetProjectileType();
+            if (player.ownedProjectileCounts[projId] > 0)
             {
                 player.buffTime[buffIndex] = 18000;
                 return;
             }
             player.DelBuff(buffIndex);
-            buffIndex--;
         }
     }
 }
