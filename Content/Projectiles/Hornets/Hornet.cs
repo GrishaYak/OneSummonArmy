@@ -47,6 +47,10 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             }
             return true;
         }
+        void Move(Vector2 direction, float speed, float inertia)
+        {
+            Projectile.velocity = (Projectile.velocity * inertia + direction * speed) / (inertia + 1f);
+        }
         int FindTarget(ref float range, ref Vector2 targetPos)
         {
             int target = -1;
@@ -58,12 +62,29 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             }
             return target;
         }
+        void Visuals(int counterMax = 1)
+        {
+            Projectile.frameCounter++;
+
+            if (Projectile.frameCounter > counterMax)
+            {
+                Projectile.frame++;
+                Projectile.frameCounter = 0;
+                if (Projectile.frame >= Main.projFrames[Projectile.type])
+                {
+                    Projectile.frame = 0;
+                }
+            }
+
+        }
         public override void AI()
         {
+            // Projectile.ai[1] is used to support frequency of shooting
             float num = 40f;
             Player player = Main.player[Projectile.owner];
             CheckActive(player);
-
+            float speed = 6f;
+            float inertia = 40f;
             Vector2 enemyPos = Projectile.position;
             float targetRange = 2000f;
             int target = FindTarget(ref targetRange, ref enemyPos); 
@@ -78,21 +99,12 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             {
                 Projectile.tileCollide = false;
             }
-            bool flag4 = false;
 
-            bool flag5 = false;
             if (Projectile.ai[0] >= 2f)
             {
-                if (Projectile.ai[0] == 2f && Projectile.type == 963)
-                {
-                    SoundEngine.PlaySound(in SoundID.AbigailAttack, Projectile.Center);
-                }
                 Projectile.ai[0] += 1f;
-                if (flag4)
-                {
-                    Projectile.localAI[1] = Projectile.ai[0] / num;
-                }
-                if (!foundTarget)
+
+                if (target == -1)
                 {
                     Projectile.ai[0] += 1f;
                 }
@@ -103,18 +115,14 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 }
                 Projectile.velocity *= 0.69f;
             }
-            else if (foundTarget && (flag5 || Projectile.ai[0] == 0f))
+            else if (target != -1 && Projectile.ai[0] == 0f)
             {
-                Vector2 v = enemyPos - Projectile.Center;
-                float num22 = v.Length();
-                v = v.SafeNormalize(Vector2.Zero);
-                if (num22 > 200f)
+                Vector2 direction = enemyPos - Projectile.Center;
+                float enemyDistance = direction.Length();
+                direction = direction.SafeNormalize(Vector2.Zero);
+                if (enemyDistance > 200f)
                 {
-                    float num26 = 6f;
-                    v *= num26;
-                    float num27 = 40f;
-                    Projectile.velocity.X = (Projectile.velocity.X * num27 + v.X) / (num27 + 1f);
-                    Projectile.velocity.Y = (Projectile.velocity.Y * num27 + v.Y) / (num27 + 1f);
+                    Move(direction, speed, inertia);
                 }
                 else if (Projectile.velocity.Y > -1f)
                 {
@@ -127,40 +135,34 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 {
                     Projectile.ai[0] = 1f;
                 }
-                float num31 = 6f;
                 if (Projectile.ai[0] == 1f)
                 {
-                    num31 = 15f;
+                    speed = 15f;
                 }
-
-                Vector2 center2 = Projectile.Center;
-                Vector2 v2 = player.Center - center2 + new Vector2(0f, -60f);
+                Vector2 toIdlePos = player.Center - Projectile.Center + new Vector2(0f, -60f);
 
 
-                float num34 = v2.Length();
-                if (num34 > 200f && num31 < 9f)
+                float distanceToHome = toIdlePos.Length();
+                if (distanceToHome > 200f && speed < 9f)
                 {
-                    num31 = 9f;
+                    speed = 9f;
                 }
-                if (num34 < 100f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+                if (distanceToHome < 100f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
                 {
                     Projectile.ai[0] = 0f;
                     Projectile.netUpdate = true;
                 }
-                if (num34 > 2000f)
+                if (distanceToHome > 2000f)
                 {
-                    Projectile.position.X = Main.player[Projectile.owner].Center.X - (float)(Projectile.width / 2);
-                    Projectile.position.Y = Main.player[Projectile.owner].Center.Y - (float)(Projectile.width / 2);
+                    Projectile.Center = player.Center;
                 }
-                if (num34 > 70f)
+                if (distanceToHome > 70f)
                 {
-                    v2 = v2.SafeNormalize(Vector2.Zero);
-                    v2 *= num31;
-                    Projectile.velocity = (Projectile.velocity * 20f + v2) / 21f;
+                    Move(toIdlePos.SafeNormalize(Vector2.Zero), speed, 20);
                 }
                 else
                 {
-                    if (Projectile.velocity.X == 0f && Projectile.velocity.Y == 0f)
+                    if (Projectile.velocity == Vector2.Zero)
                     {
                         Projectile.velocity.X = -0.15f;
                         Projectile.velocity.Y = -0.05f;
@@ -170,17 +172,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
 
             }
             Projectile.rotation = Projectile.velocity.X * 0.05f;
-            Projectile.frameCounter++;
-
-            if (Projectile.frameCounter > 1)
-            {
-                Projectile.frame++;
-                Projectile.frameCounter = 0;
-            }
-            if (Projectile.frame > 2)
-            {
-                Projectile.frame = 0;
-            }
+            Visuals();
             if (Projectile.velocity.X > 0f)
             {
                 Projectile.spriteDirection = (Projectile.direction = -1);
@@ -189,6 +181,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             {
                 Projectile.spriteDirection = (Projectile.direction = 1);
             }
+
             if (Projectile.ai[1] > 0f)
             {
                 Projectile.ai[1] += Main.rand.Next(1, 4);
@@ -203,30 +196,23 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 Projectile.ai[1] = 0f;
                 Projectile.netUpdate = true;
             }
-            if (!flag5 && Projectile.ai[0] != 0f)
+            if (Projectile.ai[0] != 0f || !foundTarget)
             {
                 return;
             }
-            float num45 = 0f;
-            int num46 = 0;
-
-            num45 = 10f;
-            num46 = 374;
-            if (!foundTarget)
-            {
-                return;
-            }
+            speed = 10f;
+            int type = 374;
             if (Projectile.ai[1] == 0f)
             {
-                Vector2 v5 = enemyPos - Projectile.Center;
+                Vector2 toEnemy = enemyPos - Projectile.Center;
                 Projectile.ai[1] += 1f;
                 if (Main.myPlayer == Projectile.owner)
                 {
-                    v5 = v5.SafeNormalize(Vector2.Zero);
-                    v5 *= num45;
-                    int num51 = Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center.X, Projectile.Center.Y, v5.X, v5.Y, num46, Projectile.damage, Projectile.knockBack, Main.myPlayer);
-                    Main.projectile[num51].timeLeft = 300;
-                    Main.projectile[num51].netUpdate = true;
+                    toEnemy = toEnemy.SafeNormalize(Vector2.Zero);
+                    toEnemy *= speed;
+                    var shot = Projectile.NewProjectileDirect(Projectile.GetSource_FromThis(), Projectile.Center, toEnemy * speed, type, Projectile.damage, Projectile.knockBack, Main.myPlayer);
+                    shot.timeLeft = 300;
+                    shot.netUpdate = true;
                     Projectile.netUpdate = true;
                 }
             }
