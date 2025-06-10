@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
-    public class SlimeBuff() : StandardBuff(ModContent.ProjectileType<SlimeCounter>())
+    public class SlimeBuff : StandardBuff
     {
         public override int GetProjectileType()
         {

@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
-    public class BirdBuff() : StandardBuff(ModContent.ProjectileType<BirdCounter>())
+    public class BirdBuff : StandardBuff
     {
         public override int GetProjectileType()
         {

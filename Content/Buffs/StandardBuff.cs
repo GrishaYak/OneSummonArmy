@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
-    public abstract class StandardBuff(int minionType) : ModBuff()
+    public abstract class StandardBuff : ModBuff
     {
         public virtual int GetProjectileType() { return ModContent.ProjectileType<StandardMinion>(); }
         public override void SetStaticDefaults()

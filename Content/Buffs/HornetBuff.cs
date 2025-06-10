@@ -3,7 +3,7 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Buffs
 {
-    public class HornetBuff() : StandardBuff(ModContent.ProjectileType<HornetCounter>())
+    public class HornetBuff : StandardBuff
     {
         public override int GetProjectileType()
         {
