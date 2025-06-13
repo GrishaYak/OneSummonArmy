@@ -14,7 +14,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
     {
         public Hornet()
         {
-            sunsTexture = AddDirToPath("Hornets");
+            sonsTexture = AddDirToPath("Hornets");
         }
         private int reloadCounter = 0;
         protected int ReloadCounter

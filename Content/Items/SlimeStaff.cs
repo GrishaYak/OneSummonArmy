@@ -8,8 +8,9 @@ using OneSummonArmy.Content.Projectiles.Slimes;
 
 namespace OneSummonArmy.Content.Items
 {
-    public class SlimeStaff : ModItem
+    public class SlimeStaff : StandardStaff
     {
+        public override string Texture => GetPathTo("Slime");
         int Level { get; set; }
         private int minionDamage;
         public override void SetStaticDefaults()

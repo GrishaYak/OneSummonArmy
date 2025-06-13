@@ -6,7 +6,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
 {
     public class BeeHornet : Hornet
     {
-        public override string Texture => AddToPath(4);
+        public override string Texture => GetPathTo(4);
         protected override void UpdateShootTimer()
         {
             ReloadCounter += Main.rand.Next(1, 4);

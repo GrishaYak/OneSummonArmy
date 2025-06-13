@@ -8,6 +8,6 @@ namespace OneSummonArmy.Content.Projectiles.Flinxes
 {
     public class Flinx4 : Flinx
     {
-        public override string Texture => AddToPath("4");
+        public override string Texture => GetPathTo("4");
     }
 }

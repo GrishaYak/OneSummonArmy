@@ -8,6 +8,6 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
 {
     public class VanilaHornet : Hornet
     {
-        public override string Texture => AddToPath(1);
+        public override string Texture => GetPathTo(1);
     }
 }

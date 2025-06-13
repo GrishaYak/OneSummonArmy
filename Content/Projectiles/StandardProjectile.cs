@@ -9,10 +9,10 @@ namespace OneSummonArmy.Content.Projectiles
 {
     public abstract class StandardProjectile : ModProjectile
     {
-        protected string sunsTexture = "OneSummonArmy/Assets/Textures/Projectiles/";
-        public override string Texture => AddToPath("Counter");
-        protected string AddToPath(string s) => string.Concat(sunsTexture, s);
-        protected string AddToPath(int n) => AddToPath($"{n}");
-        protected string AddDirToPath(string s) => AddToPath($"{s}/");
+        protected string sonsTexture = "OneSummonArmy/Assets/Textures/Projectiles/";
+        public override string Texture => GetPathTo("Counter");
+        protected string GetPathTo(string s) => string.Concat(sonsTexture, s);
+        protected string GetPathTo(int n) => GetPathTo($"{n}");
+        protected string AddDirToPath(string s) => GetPathTo($"{s}/");
     }
 }

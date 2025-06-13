@@ -16,7 +16,7 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
     public abstract class Slime : StandardProjectile
     {
         public Slime() {
-            sunsTexture = AddDirToPath("Slimes");
+            sonsTexture = AddDirToPath("Slimes");
         }
         bool onTildeCollide_checker = true;
         float n = 0f;

@@ -21,7 +21,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             this.basicSpeed = basicSpeed;
             movingFramesL = movingFrameStart;
             movingFramesR = movingFrameEnd;
-            sunsTexture = AddDirToPath("Birds");
+            sonsTexture = AddDirToPath("Birds");
         }
         protected virtual void AdditionalStaticDefaults() { }
         public override void SetStaticDefaults()

@@ -10,8 +10,9 @@ using OneSummonArmy;
 
 namespace OneSummonArmy.Content.Items
 {
-    internal class HornetStaff : ModItem
+    internal class HornetStaff : StandardStaff
     {
+        public override string Texture => GetPathTo("Hornet");
         public override void SetStaticDefaults()
         {
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;

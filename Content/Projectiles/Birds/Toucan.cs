@@ -5,7 +5,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class Toucan : Bird
     {
-        public override string Texture => AddToPath(4);
+        public override string Texture => GetPathTo(4);
         public Toucan() : base(idleFrame: 0, movingFrameStart: 1, movingFrameEnd: 6, basicSpeed: 11) { }
 
         protected override void AdditionalStaticDefaults()

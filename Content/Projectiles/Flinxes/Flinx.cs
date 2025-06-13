@@ -10,7 +10,7 @@ namespace OneSummonArmy.Content.Projectiles.Flinxes
     public abstract class Flinx : StandardProjectile
     {
         public Flinx() {
-            sunsTexture = AddDirToPath("Flinxes");
+            sonsTexture = AddDirToPath("Flinxes");
         }
 
     }

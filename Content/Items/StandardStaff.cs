@@ -9,6 +9,11 @@ namespace OneSummonArmy.Content.Items
 {
     public class StandardStaff : ModItem
     {
+        protected string sonsTexture = "OneSummonArmy/Assets/Textures/Items/";
+        public override string Texture => GetPathTo("Standard");
+        protected string GetPathTo(string s) => string.Concat(sonsTexture, s);
+        protected string GetPathTo(int n) => GetPathTo($"{n}");
+        protected string AddDirToPath(string s) => GetPathTo($"{s}/");
         public override void SetStaticDefaults()
         {
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;

@@ -6,6 +6,11 @@ namespace OneSummonArmy.Content.Buffs
 {
     public abstract class StandardBuff : ModBuff
     {
+        protected string sonsTexture = "OneSummonArmy/Assets/Textures/Buffs/";
+        public override string Texture => GetPathTo("Standard");
+        protected string GetPathTo(string s) => string.Concat(sonsTexture, s);
+        protected string GetPathTo(int n) => GetPathTo($"{n}");
+        protected string AddDirToPath(string s) => GetPathTo($"{s}/");
         public virtual int GetProjectileType() { return -1; }
         public override void SetStaticDefaults()
         {

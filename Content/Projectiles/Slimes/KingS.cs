@@ -11,7 +11,7 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
 {
     public class KingS : Slime
     {
-        public override string Texture => AddToPath("K");
+        public override string Texture => GetPathTo("K");
 
     }
 }

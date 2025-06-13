@@ -9,8 +9,9 @@ using OneSummonArmy;
 
 namespace OneSummonArmy.Content.Items
 {
-    public class BirdStaff : ModItem
+    public class BirdStaff : StandardStaff
 	{
+        public override string Texture => GetPathTo("Bird");
         public override void SetStaticDefaults()
         {
             ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true; // This lets the player target anywhere on the whole screen while using a controller

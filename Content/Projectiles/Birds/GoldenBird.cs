@@ -5,7 +5,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class GoldenBird : Bird
     {
-        public override string Texture => AddToPath(3);
+        public override string Texture => GetPathTo(3);
         public GoldenBird() : base(basicSpeed: 10) { }
         protected override Vector2 GetHomeLocation()
         {

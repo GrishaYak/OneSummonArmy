@@ -11,6 +11,7 @@ namespace OneSummonArmy.Content.Items
 {
     public class FlinxStaff : StandardStaff
     {
+        public override string Texture => GetPathTo("Flinx");
         public override void SetDefaults()
         {
             base.SetDefaults();

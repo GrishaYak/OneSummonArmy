@@ -11,6 +11,6 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
 {
     public class YellowS : Slime
     {
-        public override string Texture => AddToPath("Y");
+        public override string Texture => GetPathTo("Y");
     }
 }
