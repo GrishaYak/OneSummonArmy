@@ -1,0 +1,56 @@
+# This file will automatically update with entries for new content after a build and reload.
+
+Items: {
+	BirdStaff: {
+		DisplayName: Посох птиц
+		Tooltip: "Призывает птицу, которая будет сражаться за тебя"
+	}
+
+	SlimeStaff: {
+		Tooltip: "Призывает слизня, который не даст врагам тебя задеть"
+		DisplayName: Посох слизня
+	}
+
+	HornetStaff: {
+		Tooltip: "Призывает шершня, который будет тебя охранять"
+		DisplayName: Посох шершней
+	}
+}
+
+Buffs: {
+	BirdBuff: {
+		DisplayName: Птица
+		Description: Птица летает за тобой
+	}
+
+	SlimeBuff: {
+		Description: Слизень
+		DisplayName: Слизень прыгает за вами
+	}
+
+	HornetBuff: {
+		Description: Шершень
+		DisplayName: Шершень высматривает противников
+	}
+}
+
+Projectiles: {
+	Ara.DisplayName: Попугай Ара
+	BlueJay.DisplayName: Голубая сойка
+	Finch.DisplayName: Зяблик
+	GoldenBird.DisplayName: Золотая птица
+	Toucan.DisplayName: Тукан
+	BirdCounter.DisplayName: Счётчик птиц
+	RandomS.DisplayName: Старый слизень
+	PinkS.DisplayName: Розовый слизень
+	KingS.DisplayName: Слизень-Король
+	GreenS.DisplayName: Зелёный слизень
+	CopperS.DisplayName: Медный слизень
+	SlimeCounter.DisplayName: Счётчик слизней
+	YellowS.DisplayName: Жёлтый слизень
+	HornetCounter.DisplayName: Счётчик Шершней
+	RifleHornet.DisplayName: Шершень с винтовкой
+	ShotgunHornet.DisplayName: Шершень с дробовиком
+	VanilaHornet.DisplayName: Шершень
+	BeeHornet.DisplayName: Королева Шершней
+}

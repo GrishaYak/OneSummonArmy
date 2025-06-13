@@ -10,6 +10,9 @@
 	<ItemGroup>
 	  <None Remove="Content\Projectiles\Birds\BirdCounter.png" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Content\Projectiles\Flinxes\" />
+	</ItemGroup>
 
 	<!-- References -->
 

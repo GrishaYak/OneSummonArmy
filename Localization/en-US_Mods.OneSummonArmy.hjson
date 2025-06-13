@@ -7,12 +7,12 @@ Items: {
 	}
 
 	SlimeStaff: {
-		Tooltip: ""
+		Tooltip: "Summons a slime that will help you in fights"
 		DisplayName: Slime Staff
 	}
 
 	HornetStaff: {
-		Tooltip: ""
+		Tooltip: "Summons a hornet that will defend you"
 		DisplayName: Hornet Staff
 	}
 }
@@ -20,17 +20,17 @@ Items: {
 Buffs: {
 	BirdBuff: {
 		DisplayName: Bird
-		Description: A bird is fighting for you
+		Description: A bird is flying after you
 	}
 
 	SlimeBuff: {
-		Description: Mods.OneSummonArmy.Buffs.SlimeBuff.Description
-		DisplayName: Slime Buff
+		Description: Slime
+		DisplayName: A slime is jumping after you
 	}
 
 	HornetBuff: {
-		Description: Mods.OneSummonArmy.Buffs.HornetBuff.Description
-		DisplayName: Hornet Buff
+		Description: Hornet
+		DisplayName: A hornet is watching for an enemies
 	}
 }
 
@@ -42,19 +42,16 @@ Projectiles: {
 	Toucan.DisplayName: Toucan
 	Nest.DisplayName: Nest
 	BirdCounter.DisplayName: Bird Counter
-	RandomS.DisplayName: Random S
-	PinkS.DisplayName: Pink S
-	KingS.DisplayName: King S
-	GreenS.DisplayName: Green S
-	CopperS.DisplayName: Copper S
+	RandomS.DisplayName: Old Slime
+	PinkS.DisplayName: Pink Slime
+	KingS.DisplayName: King Slime
+	GreenS.DisplayName: Green Slime
+	CopperS.DisplayName: Slime-In-Copper
 	SlimeCounter.DisplayName: Slime Counter
-	YellowS.DisplayName: Yellow S
-	DoubleHornet.DisplayName: Double Hornet
+	YellowS.DisplayName: Yellow Slime
 	HornetCounter.DisplayName: Hornet Counter
 	RifleHornet.DisplayName: Rifle Hornet
 	ShotgunHornet.DisplayName: Shotgun Hornet
-	TripleHornet.DisplayName: Triple Hornet
-	VanilaHornet.DisplayName: Vanila Hornet
-	PoisonedSting.DisplayName: Poisoned Sting
-	BeeHornet.DisplayName: Bee Hornet
+	VanilaHornet.DisplayName: Hornet
+	BeeHornet.DisplayName: Queen Hornet
 }

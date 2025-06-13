@@ -14,6 +14,17 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         {
             base.GetToAttackPosition(enemyPos, speed, inertia, 100);
         }
+        protected override void UpdateShootTimer()
+        {
+            ReloadCounter += Main.rand.Next(1, 4);
+
+            int shootTimer = Main.player[Projectile.owner].strongBees ? 110 : 140;
+            if (ReloadCounter > shootTimer)
+            {
+                ReadyToShoot = true;
+                Projectile.netUpdate = true;
+            }
+        }
         protected override void Shoot(float newProjSpeed, int enemyID, int type = 374, Vector2? direction = null)
         {
             ReadyToShoot = false;
