@@ -74,28 +74,42 @@ namespace OneSummonArmy.AI
                 }
             }
         }
+        public static int ProjIdByLevel(string minion, int level)
+        {
+            switch (minion)
+            {
+                case "Bird":
+                    return level switch
+                    {
+                        1 => ModContent.ProjectileType<Finch>(),
+                        2 => ModContent.ProjectileType<BlueJay>(),
+                        3 => ModContent.ProjectileType<GoldenBird>(),
+                        4 => ModContent.ProjectileType<Toucan>(),
+                        _ => ModContent.ProjectileType<Ara>()
+                    };
+                case "Slime":
+                    return level switch
+                    {
+                        1 => ModContent.ProjectileType<Finch>(),
+                        2 => ModContent.ProjectileType<BlueJay>(),
+                        3 => ModContent.ProjectileType<GoldenBird>(),
+                        4 => ModContent.ProjectileType<Toucan>(),
+                        _ => ModContent.ProjectileType<Ara>()
+                    };
+                case "Hornet":
+                    return level switch
+                    {
+                        1 => ModContent.ProjectileType<VanilaHornet>(),
+                        2 => ModContent.ProjectileType<RifleHornet>(),
+                        3 => ModContent.ProjectileType<ShotgunHornet>(),
+                        _ => ModContent.ProjectileType<BeeHornet>()
+                    };
+                default:
+                    throw new NotImplementedException();
 
-        public static int BirdIdByLevel(int level)
-        {
-            return level switch
-            {
-                1 => ModContent.ProjectileType<Finch>(),
-                2 => ModContent.ProjectileType<BlueJay>(),
-                3 => ModContent.ProjectileType<GoldenBird>(),
-                4 => ModContent.ProjectileType<Toucan>(),
-                _ => ModContent.ProjectileType<Ara>(),
-            };
+            }
         }
-        public static int HornetIdByLevel(int level)
-        {
-            return level switch
-            {
-                1 => ModContent.ProjectileType<VanilaHornet>(),
-                2 => ModContent.ProjectileType<RifleHornet>(),
-                3 => ModContent.ProjectileType<ShotgunHornet>(),
-                _ => ModContent.ProjectileType<BeeHornet>()
-            };
-        }
+        
 
     }
 }

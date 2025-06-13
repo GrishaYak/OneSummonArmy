@@ -7,13 +7,23 @@ Items: {
 	}
 
 	SlimeStaff: {
-		Tooltip: "Summons a slime that will help you in fights"
+		Tooltip: Summons a slime that will help you in fights
 		DisplayName: Slime Staff
 	}
 
 	HornetStaff: {
-		Tooltip: "Summons a hornet that will defend you"
+		Tooltip: Summons a hornet that will defend you
 		DisplayName: Hornet Staff
+	}
+
+	FlinxStaff: {
+		DisplayName: Flinx Staff
+		Tooltip: ""
+	}
+
+	StandardStaff: {
+		DisplayName: Standard Staff
+		Tooltip: ""
 	}
 }
 
@@ -31,6 +41,11 @@ Buffs: {
 	HornetBuff: {
 		Description: Hornet
 		DisplayName: A hornet is watching for an enemies
+	}
+
+	FlinxBuff: {
+		Description: Mods.OneSummonArmy.Buffs.FlinxBuff.Description
+		DisplayName: Flinx Buff
 	}
 }
 
@@ -54,4 +69,5 @@ Projectiles: {
 	ShotgunHornet.DisplayName: Shotgun Hornet
 	VanilaHornet.DisplayName: Hornet
 	BeeHornet.DisplayName: Queen Hornet
+	FlinxCounter.DisplayName: Flinx Counter
 }

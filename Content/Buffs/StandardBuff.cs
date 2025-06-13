@@ -6,7 +6,7 @@ namespace OneSummonArmy.Content.Buffs
 {
     public abstract class StandardBuff : ModBuff
     {
-        public virtual int GetProjectileType() { return ModContent.ProjectileType<StandardMinion>(); }
+        public virtual int GetProjectileType() { return -1; }
         public override void SetStaticDefaults()
         {
             Main.buffNoSave[Type] = false; // This buff will save when you exit the world

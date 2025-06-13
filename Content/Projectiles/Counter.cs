@@ -11,6 +11,7 @@ namespace OneSummonArmy.Content.Projectiles
     {
         int serial;
         protected virtual void SetAdditionalDefaults() { }
+        public override string Texture => "OneSummonArmy/Content/Projectiles/Counter";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;

@@ -8,10 +8,7 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
-	  <None Remove="Content\Projectiles\Birds\BirdCounter.png" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Content\Projectiles\Flinxes\" />
+	  <None Remove="Content\Items\StandardStaff.png" />
 	</ItemGroup>
 
 	<!-- References -->

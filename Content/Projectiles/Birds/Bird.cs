@@ -92,10 +92,10 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         {
             CheckActive(player);
             int level = player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()];
-            if (Projectile.type != AIs.BirdIdByLevel(level))
+            if (Projectile.type != AIs.ProjIdByLevel("Bird", level))
             {
                 var source = player.GetSource_FromThis();
-                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.BirdIdByLevel(level), 0, 0);
+                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.ProjIdByLevel("Bird", level), 0, 0);
                 proj.Center = Projectile.Center;
                 Projectile.Kill();
                 return;

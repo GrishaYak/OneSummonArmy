@@ -50,8 +50,8 @@ namespace OneSummonArmy.Content.Items
             player.AddBuff(Item.buffType, 2);
             int level = player.ownedProjectileCounts[Item.shoot] + 1;
             Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            int projId = AIs.BirdIdByLevel(level);
-            int prevId = AIs.BirdIdByLevel(level - 1);
+            int projId = AIs.ProjIdByLevel("Bird", level);
+            int prevId = AIs.ProjIdByLevel("Bird", level - 1);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)

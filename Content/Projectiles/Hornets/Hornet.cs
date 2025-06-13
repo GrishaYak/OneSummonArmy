@@ -219,10 +219,10 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         void Basics(Player player, int level)
         {
             CheckActive(player);
-            if (Projectile.type != AIs.HornetIdByLevel(level))
+            if (Projectile.type != AIs.ProjIdByLevel("Hornet", level))
             {
                 var source = player.GetSource_FromThis();
-                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.HornetIdByLevel(level), 12, 2f);
+                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.ProjIdByLevel("Hornet", level), 12, 2f);
                 proj.Center = Projectile.Center;
                 Projectile.Kill();
                 return;

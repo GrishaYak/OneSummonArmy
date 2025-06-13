@@ -2,55 +2,72 @@
 
 Items: {
 	BirdStaff: {
-		DisplayName: Посох птиц
-		Tooltip: "Призывает птицу, которая будет сражаться за тебя"
+		DisplayName: РџРѕСЃРѕС… РїС‚РёС†
+		Tooltip: РџСЂРёР·С‹РІР°РµС‚ РїС‚РёС†Сѓ, РєРѕС‚РѕСЂР°СЏ Р±СѓРґРµС‚ Р»РµС‚Р°С‚СЊ Р·Р° РІР°РјРё
 	}
 
 	SlimeStaff: {
-		Tooltip: "Призывает слизня, который не даст врагам тебя задеть"
-		DisplayName: Посох слизня
+		Tooltip: РџСЂРёР·С‹РІР°РµС‚ СЃР»РёР·РЅСЏ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РїСЂС‹РіР°С‚СЊ Р·Р° РІР°РјРё
+		DisplayName: РџРѕСЃРѕС… СЃР»РёР·РЅСЏ
 	}
 
 	HornetStaff: {
-		Tooltip: "Призывает шершня, который будет тебя охранять"
-		DisplayName: Посох шершней
+		Tooltip: РџСЂРёР·С‹РІР°РµС‚ С€РµСЂС€РЅСЏ, РєРѕС‚РѕСЂС‹Р№ Р±СѓРґРµС‚ РІС‹СЃРјР°С‚СЂРёРІР°С‚СЊ РїСЂРѕС‚РёРІРЅРёРєРѕРІ
+		DisplayName: РџРѕСЃРѕС… С€РµСЂС€РЅРµР№
+	}
+
+	FlinxStaff: {
+		DisplayName: РџРѕСЃРѕС… С„Р»РёРЅРєСЃР°
+		Tooltip: РџСЂРёР·С‹РІР°РµС‚ РїСѓС€РёСЃС‚С‹Р№ РєРѕРјРѕРє. Р•РјСѓ, РєР°Р¶РµС‚СЃСЏ, С…РѕР»РѕРґРЅРѕ!
+	}
+
+	StandardStaff: {
+		DisplayName: Р§С‚Рѕ СЌС‚Рѕ?
+		Tooltip: РљР°Рє РІС‹ СЌС‚Рѕ РїРѕР»СѓС‡РёР»Рё?
 	}
 }
 
 Buffs: {
 	BirdBuff: {
-		DisplayName: Птица
-		Description: Птица летает за тобой
+		DisplayName: РџС‚РёС†Р°
+		Description: РџС‚РёС†Р° Р»РµС‚Р°РµС‚ Р·Р° РІР°РјРё
 	}
 
 	SlimeBuff: {
-		Description: Слизень
-		DisplayName: Слизень прыгает за вами
+		Description: РЎР»РёР·РµРЅСЊ
+		DisplayName: РЎР»РёР·РµРЅСЊ РїСЂС‹РіР°РµС‚ Р·Р° РІР°РјРё
 	}
 
 	HornetBuff: {
-		Description: Шершень
-		DisplayName: Шершень высматривает противников
+		Description: РЁРµСЂС€РµРЅСЊ
+		DisplayName: РЁРµСЂС€РµРЅСЊ С‚Р°Рє Рё С…РѕС‡РµС‚ РїРѕСЃС‚СЂРµР»СЏС‚СЊ!
+	}
+
+	FlinxBuff: {
+		Description: Р¤Р»РёРЅРєСЃ РєСѓРІС‹СЂРєР°РµС‚СЃСЏ СЂСЏРґРѕРј СЃ РІР°РјРё. Р—РёРјР° Р±Р»РёР·РєРѕ...
+		DisplayName: Р¤Р»РёРЅРєСЃ
 	}
 }
 
 Projectiles: {
-	Ara.DisplayName: Попугай Ара
-	BlueJay.DisplayName: Голубая сойка
-	Finch.DisplayName: Зяблик
-	GoldenBird.DisplayName: Золотая птица
-	Toucan.DisplayName: Тукан
-	BirdCounter.DisplayName: Счётчик птиц
-	RandomS.DisplayName: Старый слизень
-	PinkS.DisplayName: Розовый слизень
-	KingS.DisplayName: Слизень-Король
-	GreenS.DisplayName: Зелёный слизень
-	CopperS.DisplayName: Медный слизень
-	SlimeCounter.DisplayName: Счётчик слизней
-	YellowS.DisplayName: Жёлтый слизень
-	HornetCounter.DisplayName: Счётчик Шершней
-	RifleHornet.DisplayName: Шершень с винтовкой
-	ShotgunHornet.DisplayName: Шершень с дробовиком
-	VanilaHornet.DisplayName: Шершень
-	BeeHornet.DisplayName: Королева Шершней
+	Ara.DisplayName: РџРѕРїСѓРіР°Р№ РђСЂР°
+	BlueJay.DisplayName: Р“РѕР»СѓР±Р°СЏ СЃРѕР№РєР°
+	Finch.DisplayName: Р—СЏР±Р»РёРє
+	GoldenBird.DisplayName: Р—РѕР»РѕС‚Р°СЏ РїС‚РёС†Р°
+	Toucan.DisplayName: РўСѓРєР°РЅ
+	// Nest.DisplayName: Nest
+	BirdCounter.DisplayName: РЎС‡С‘С‚С‡РёРє РїС‚РёС†
+	RandomS.DisplayName: РЎС‚Р°СЂС‹Р№ СЃР»РёР·РµРЅСЊ
+	PinkS.DisplayName: Р РѕР·РѕРІС‹Р№ СЃР»РёР·РµРЅСЊ
+	KingS.DisplayName: РЎР»РёР·РµРЅСЊ-РљРѕСЂРѕР»СЊ
+	GreenS.DisplayName: Р—РµР»С‘РЅС‹Р№ СЃР»РёР·РµРЅСЊ
+	CopperS.DisplayName: РњРµРґРЅС‹Р№ СЃР»РёР·РµРЅСЊ
+	SlimeCounter.DisplayName: РЎС‡С‘С‚С‡РёРє СЃР»РёР·РЅРµР№
+	YellowS.DisplayName: Р–С‘Р»С‚С‹Р№ СЃР»РёР·РµРЅСЊ
+	HornetCounter.DisplayName: РЎС‡С‘С‚С‡РёРє С€РµСЂС€РЅРµР№
+	RifleHornet.DisplayName: РЁРµСЂС€РµРЅСЊ СЃ РІРёРЅС‚РѕРІРєРѕР№
+	ShotgunHornet.DisplayName: РЁРµСЂС€РµРЅСЊ СЃ РґСЂРѕР±РѕРІРёРєРѕРј
+	VanilaHornet.DisplayName: РЁРµСЂС€РµРЅСЊ
+	BeeHornet.DisplayName: РљРѕСЂРѕР»РµРІР° С€РµСЂС€РЅРµР№
+	FlinxCounter.DisplayName: РЎС‡С‘С‚С‡РёРє С„Р»РёРЅРєСЃРѕРІ
 }

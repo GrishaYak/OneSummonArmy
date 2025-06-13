@@ -1,41 +1,29 @@
-﻿using Microsoft.Xna.Framework;
-using OneSummonArmy.Content.Buffs;
-using OneSummonArmy.Content.Projectiles.Hornets;
-using Terraria;
-using Terraria.DataStructures;
+﻿using OneSummonArmy.Content.Buffs;
+using OneSummonArmy.Content.Projectiles.Flinxes;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria;
+using Terraria.DataStructures;
+using Microsoft.Xna.Framework;
 using OneSummonArmy.AI;
-
 
 namespace OneSummonArmy.Content.Items
 {
-    internal class HornetStaff : ModItem
+    public class FlinxStaff : StandardStaff
     {
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
-            ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
-        }
         public override void SetDefaults()
         {
-            Item.mana = 10;
-            Item.damage = 12;
-            Item.useStyle = ItemUseStyleID.Swing;
+            base.SetDefaults();
+            Item.mana = 5;
+            Item.damage = 8;
             Item.shootSpeed = 10f;
-            Item.shoot = ModContent.ProjectileType<HornetCounter>();
-            Item.width = 26;
-            Item.height = 28;
-            Item.UseSound = SoundID.Item76;
-            Item.useAnimation = 22;
-            Item.useTime = 22;
+            Item.shoot = ModContent.ProjectileType<FlinxCounter>();
+            Item.buffType = ModContent.BuffType<FlinxBuff>();
+            Item.width = 38;
+            Item.height = 40;
             Item.rare = ItemRarityID.Orange;
-            Item.noMelee = true;
             Item.knockBack = 2f;
-            Item.buffType = ModContent.BuffType<HornetBuff>();
-            Item.value = Item.sellPrice(silver: 70);
-            Item.DamageType = DamageClass.Summon;
-            Item.autoReuse = true;
+            Item.value = Item.sellPrice(silver: 50);
             Item.reuseDelay = 2;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
@@ -44,8 +32,8 @@ namespace OneSummonArmy.Content.Items
             player.AddBuff(Item.buffType, 2);
             int level = player.ownedProjectileCounts[Item.shoot] + 1;
             Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            int projId = AIs.ProjIdByLevel("Hornet", level);
-            int prevId = AIs.ProjIdByLevel("Hornet", level - 1);
+            int projId = AIs.ProjIdByLevel("Bird", level);
+            int prevId = AIs.ProjIdByLevel("Bird", level - 1);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)
