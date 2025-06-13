@@ -5,6 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
+using OneSummonArmy.AI;
 
 
 namespace OneSummonArmy.Content.Items
@@ -37,25 +38,14 @@ namespace OneSummonArmy.Content.Items
             Item.autoReuse = true;
             Item.reuseDelay = 2;
         }
-        int HornetIdByLevel(int level)
-        {
-            return level switch
-            {
-                1 => ModContent.ProjectileType<VanilaHornet>(),
-                2 => ModContent.ProjectileType<DoubleHornet>(),
-                3 => ModContent.ProjectileType<TripleHornet>(),
-                4 => ModContent.ProjectileType<RifleHornet>(),
-                _ => ModContent.ProjectileType<ShotgunHornet>()
-            };
-        }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
             if (player.numMinions == player.maxMinions) { return false; }
             player.AddBuff(Item.buffType, 2);
             int level = player.ownedProjectileCounts[Item.shoot] + 1;
             Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            int projId = HornetIdByLevel(level);
-            int prevId = HornetIdByLevel(level - 1);
+            int projId = AIs.HornetIdByLevel(level);
+            int prevId = AIs.HornetIdByLevel(level - 1);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)

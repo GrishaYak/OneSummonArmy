@@ -5,6 +5,8 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using OneSummonArmy.Content.Buffs;
+using OneSummonArmy.AI;
+using OneSummonArmy.Content.Projectiles.Birds;
 
 namespace OneSummonArmy.Content.Projectiles.Hornets
 {
@@ -104,11 +106,11 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 Projectile.netUpdate = true;
             }
         }
-        protected void DirectProj(Vector2 direction, float speed, int type = 374, Vector2 position=new Vector2())
+        protected Projectile DirectProj(Vector2 direction, float speed, int type = 374, Vector2 position=new Vector2())
         {
-            DirectProj(direction * speed, type, position);
+            return DirectProj(direction * speed, type, position);
         }
-        protected void DirectProj(Vector2 velocity, int type = 374, Vector2 position= new Vector2())
+        protected Projectile DirectProj(Vector2 velocity, int type = 374, Vector2 position= new Vector2())
         {
             if (Main.myPlayer == Projectile.owner)
             {
@@ -120,21 +122,26 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 shot.timeLeft = 300;
                 shot.netUpdate = true;
                 Projectile.netUpdate = true;
+                return shot;
             }
+            return null;
         }
-        protected virtual void Shoot(float newProjSpeed, Vector2 enemyPos, int type=374)
-        {            
-            Vector2 toEnemy = enemyPos - Projectile.Center;
+        
+        protected virtual void Shoot(float newProjSpeed, int enemyID, int type=374, Vector2? direction=null)
+        {
+            NPC enemy = Main.npc[enemyID];
+            Vector2 toEnemy = enemy.Center - Projectile.Center;
+            direction ??= toEnemy.SafeNormalize(Vector2.Zero);
             Projectile.ai[1] += 1f;
-            DirectProj(toEnemy, newProjSpeed, type);
+            DirectProj((Vector2) direction, newProjSpeed, type);
             
         }
-        void GetToAttackPosition(Vector2 enemyPos, float speed, float inertia)
+        protected virtual void GetToAttackPosition(Vector2 enemyPos, float speed, float inertia, float dist=200f)
         {
             Vector2 direction = enemyPos - Projectile.Center;
             float enemyDistance = direction.Length();
             direction = direction.SafeNormalize(Vector2.Zero);
-            if (enemyDistance > 200f)
+            if (enemyDistance > dist)
             {
                 Move(direction, speed, inertia);
             }
@@ -182,21 +189,33 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 Projectile.velocity *= 1.01f;
             }
         }
+        void Basics(Player player, int level)
+        {
+            CheckActive(player);
+            if (Projectile.type != AIs.HornetIdByLevel(level))
+            {
+                var source = player.GetSource_FromThis();
+                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.HornetIdByLevel(level), 12, 2f);
+                proj.Center = Projectile.Center;
+                Projectile.Kill();
+                return;
+            }
+            Projectile.damage = Projectile.damage * level / 5 * 4;
+        }
+
         public override void AI()
         {
             // Projectile.ai[1] is used to support frequency of shooting
             // ai[0] == 1 means "should get to idlePos
             // ai[0] == 0 means "ready to attack"
+            
             Player player = Main.player[Projectile.owner];
-            if (!CheckActive(player))
-            {
-                return;
-            }
+            int level = player.ownedProjectileCounts[ModContent.ProjectileType<HornetCounter>()];
+            Basics(player, level);
             float speed = 6f, inertia = 40f, targetRange = 2000f;
             Vector2 enemyPos = Projectile.position;
             int target = FindTarget(ref targetRange, ref enemyPos);
             Projectile.tileCollide = true;
-
             if (Vector2.Distance(player.Center, Projectile.Center) > 500)
             {
                 Projectile.ai[0] = 1f;
@@ -221,7 +240,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             {
                 return;
             }
-            Shoot(10, enemyPos);
+            Shoot(10, target);
             
 
         }

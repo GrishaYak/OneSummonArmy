@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,10 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 Projectile.ai[1] = 0f;
                 Projectile.netUpdate = true;
             }
+        }
+        protected override void Shoot(float newProjSpeed, int enemyID, int type = 374, Vector2? direction = null)
+        {
+            base.Shoot(newProjSpeed * 1.5f, enemyID, type, direction);
         }
     }
 }

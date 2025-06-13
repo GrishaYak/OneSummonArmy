@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using OneSummonArmy.Content.Projectiles.Birds;
+using OneSummonArmy.Content.Projectiles.Hornets;
 using System;
 using System.Collections.Generic;
 using Terraria;
@@ -83,6 +84,17 @@ namespace OneSummonArmy.AI
                 3 => ModContent.ProjectileType<GoldenBird>(),
                 4 => ModContent.ProjectileType<Toucan>(),
                 _ => ModContent.ProjectileType<Ara>(),
+            };
+        }
+        public static int HornetIdByLevel(int level)
+        {
+            return level switch
+            {
+                1 => ModContent.ProjectileType<VanilaHornet>(),
+                2 => ModContent.ProjectileType<DoubleHornet>(),
+                3 => ModContent.ProjectileType<TripleHornet>(),
+                4 => ModContent.ProjectileType<RifleHornet>(),
+                _ => ModContent.ProjectileType<ShotgunHornet>()
             };
         }
 

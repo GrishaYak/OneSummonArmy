@@ -20,7 +20,7 @@ namespace OneSummonArmy.Content.Projectiles
         public override void SetDefaults()
         {
             Projectile.timeLeft = 2;
-            Projectile.hide = false;
+            Projectile.hide = true;
             Projectile.penetrate = -1;
             Projectile.minion = true;
             Projectile.minionSlots = 1f;
