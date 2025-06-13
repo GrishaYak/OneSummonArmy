@@ -12,6 +12,37 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
 {
     public abstract class Hornet : ModProjectile
     {
+        private int reloadCounter = 0;
+        protected int ReloadCounter
+        {
+            get => reloadCounter;
+            set => reloadCounter = value;
+        }
+        protected bool ReadyToShoot
+        {
+            get => reloadCounter == 0;
+            set => reloadCounter = value ? 0 : 1;
+        }
+        private int stage = 0;
+        protected bool ReadyToAttack
+        {
+            get { return stage == 0; }
+            set { stage = value ? 0 : 1; }
+        }
+        protected bool ShouldGoHome 
+        { 
+            get => stage == 1; 
+            set => stage = value ? 1 : 0; 
+        }
+        readonly int deafaultDamage = 12;
+        protected void ScaleDamage(double scale)
+        {
+            Projectile.damage = (int)(Projectile.damage * scale);
+        }
+        protected void SetDamageToDefault()
+        {
+            Projectile.damage = deafaultDamage;
+        }
         protected virtual void AdditionalStaticDefaults() { }
         public override void SetStaticDefaults()
         {
@@ -93,16 +124,12 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         protected virtual void UpdateShootTimer()
         {
 
-            Projectile.ai[1] += Main.rand.Next(1, 4);
+            ReloadCounter += Main.rand.Next(1, 4);
             
-            int shootTimer = 90;
-            if (Main.player[Projectile.owner].strongBees)
+            int shootTimer = Main.player[Projectile.owner].strongBees ? 70 : 90;
+            if (ReloadCounter > shootTimer)
             {
-                shootTimer = 70;
-            }
-            if (Projectile.ai[1] > shootTimer)
-            {
-                Projectile.ai[1] = 0f;
+                ReadyToShoot = true;
                 Projectile.netUpdate = true;
             }
         }
@@ -132,7 +159,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             NPC enemy = Main.npc[enemyID];
             Vector2 toEnemy = enemy.Center - Projectile.Center;
             direction ??= toEnemy.SafeNormalize(Vector2.Zero);
-            Projectile.ai[1] += 1f;
+            ReadyToShoot = false;
             DirectProj((Vector2) direction, newProjSpeed, type);
             
         }
@@ -154,9 +181,9 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         {
             if (!Collision.CanHitLine(Projectile.Center, 1, 1, player.Center, 1, 1))
             {
-                Projectile.ai[0] = 1f;
+                ShouldGoHome = true;
             }
-            if (Projectile.ai[0] == 1f)
+            if (ShouldGoHome)
             {
                 speed = 15f;
             }
@@ -166,9 +193,9 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             {
                 speed = 9f;
             }
-            if (distanceToHome < 100f && Projectile.ai[0] == 1f && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
+            if (distanceToHome < 100f && ShouldGoHome && !Collision.SolidCollision(Projectile.position, Projectile.width, Projectile.height))
             {
-                Projectile.ai[0] = 0f;
+                ReadyToAttack = true;
                 Projectile.netUpdate = true;
             }
             if (distanceToHome > 2000f)
@@ -200,7 +227,6 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 Projectile.Kill();
                 return;
             }
-            Projectile.damage = Projectile.damage * level / 5 * 4;
         }
 
         public override void AI()
@@ -215,18 +241,15 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             float speed = 6f, inertia = 40f, targetRange = 2000f;
             Vector2 enemyPos = Projectile.position;
             int target = FindTarget(ref targetRange, ref enemyPos);
-            Projectile.tileCollide = true;
+
             if (Vector2.Distance(player.Center, Projectile.Center) > 500)
             {
-                Projectile.ai[0] = 1f;
+                ShouldGoHome = true;
                 Projectile.netUpdate = true;
             }
-            if (Projectile.ai[0] == 1f)
-            {
-                Projectile.tileCollide = false;
-            }
+            Projectile.tileCollide = !ShouldGoHome;
 
-            if (target != -1 && Projectile.ai[0] == 0f)
+            if (target != -1 && ReadyToAttack)
             {
                 GetToAttackPosition(enemyPos, speed, inertia);
             }
@@ -236,13 +259,11 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             }
             Visuals();
             UpdateShootTimer();
-            if (Projectile.ai[0] != 0f || target == -1 || Projectile.ai[1] != 0f)
+            if (!ReadyToAttack || target == -1 || !ReadyToShoot)
             {
                 return;
             }
             Shoot(10, target);
-            
-
         }
     }
 }

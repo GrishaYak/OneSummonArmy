@@ -56,4 +56,5 @@ Projectiles: {
 	TripleHornet.DisplayName: Triple Hornet
 	VanilaHornet.DisplayName: Vanila Hornet
 	PoisonedSting.DisplayName: Poisoned Sting
+	BeeHornet.DisplayName: Bee Hornet
 }

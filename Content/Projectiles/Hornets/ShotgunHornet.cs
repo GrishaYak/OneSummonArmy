@@ -16,7 +16,8 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         }
         protected override void Shoot(float newProjSpeed, int enemyID, int type = 374, Vector2? direction = null)
         {
-            Projectile.ai[1] += 1f;
+            ReadyToShoot = false;
+            ScaleDamage(0.6);
             NPC enemy = Main.npc[enemyID];
             direction ??= (enemy.Center - Projectile.Center).SafeNormalize(Vector2.Zero);
             Vector2 projPos = Projectile.position;

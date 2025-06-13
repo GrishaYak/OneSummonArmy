@@ -91,10 +91,9 @@ namespace OneSummonArmy.AI
             return level switch
             {
                 1 => ModContent.ProjectileType<VanilaHornet>(),
-                2 => ModContent.ProjectileType<DoubleHornet>(),
-                3 => ModContent.ProjectileType<TripleHornet>(),
-                4 => ModContent.ProjectileType<RifleHornet>(),
-                _ => ModContent.ProjectileType<ShotgunHornet>()
+                2 => ModContent.ProjectileType<RifleHornet>(),
+                3 => ModContent.ProjectileType<ShotgunHornet>(),
+                _ => ModContent.ProjectileType<BeeHornet>()
             };
         }
 
