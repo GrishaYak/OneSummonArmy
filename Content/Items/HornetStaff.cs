@@ -13,30 +13,21 @@ namespace OneSummonArmy.Content.Items
     internal class HornetStaff : StandardStaff
     {
         public override string Texture => GetPathTo("Hornet");
-        public override void SetStaticDefaults()
-        {
-            ItemID.Sets.GamepadWholeScreenUseRange[Item.type] = true;
-            ItemID.Sets.LockOnIgnoresCollision[Item.type] = true;
-        }
         public override void SetDefaults()
         {
+            base.SetDefaults();
             Item.mana = 10;
             Item.damage = 12;
-            Item.useStyle = ItemUseStyleID.Swing;
             Item.shootSpeed = 10f;
             Item.shoot = ModContent.ProjectileType<HornetCounter>();
             Item.width = 26;
             Item.height = 28;
-            Item.UseSound = SoundID.Item76;
             Item.useAnimation = 22;
             Item.useTime = 22;
             Item.rare = ItemRarityID.Orange;
-            Item.noMelee = true;
             Item.knockBack = 2f;
             Item.buffType = ModContent.BuffType<HornetBuff>();
             Item.value = Item.sellPrice(silver: 70);
-            Item.DamageType = DamageClass.Summon;
-            Item.autoReuse = true;
             Item.reuseDelay = 2;
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
