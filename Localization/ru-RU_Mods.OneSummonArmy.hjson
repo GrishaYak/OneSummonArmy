@@ -70,4 +70,8 @@ Projectiles: {
 	VanilaHornet.DisplayName: Шершень
 	BeeHornet.DisplayName: Королева шершней
 	FlinxCounter.DisplayName: Счётчик флинксов
+	// Flinx1.DisplayName: Flinx1
+	// Flinx2.DisplayName: Flinx2
+	// Flinx3.DisplayName: Flinx3
+	// Flinx4.DisplayName: Flinx4
 }

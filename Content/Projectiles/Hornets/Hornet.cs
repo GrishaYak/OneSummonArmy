@@ -5,13 +5,17 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using OneSummonArmy.Content.Buffs;
-using OneSummonArmy.AI;
+using OneSummonArmy;
 using OneSummonArmy.Content.Projectiles.Birds;
 
 namespace OneSummonArmy.Content.Projectiles.Hornets
 {
-    public abstract class Hornet : ModProjectile
+    public abstract class Hornet : StandardProjectile
     {
+        public Hornet()
+        {
+            sunsTexture = AddDirToPath("Hornets");
+        }
         private int reloadCounter = 0;
         protected int ReloadCounter
         {
@@ -219,10 +223,10 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         void Basics(Player player, int level)
         {
             CheckActive(player);
-            if (Projectile.type != AIs.ProjIdByLevel("Hornet", level))
+            if (Projectile.type != Func.ProjIdByLevel("Hornet", level))
             {
                 var source = player.GetSource_FromThis();
-                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.ProjIdByLevel("Hornet", level), 12, 2f);
+                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, Func.ProjIdByLevel("Hornet", level), 12, 2f);
                 proj.Center = Projectile.Center;
                 Projectile.Kill();
                 return;

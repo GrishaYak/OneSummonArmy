@@ -1,10 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 
 {
     public class Finch : Bird
     {
+        public override string Texture => AddToPath(1);
         protected override Vector2 GetHomeLocation()
         {
             var home = base.GetHomeLocation();

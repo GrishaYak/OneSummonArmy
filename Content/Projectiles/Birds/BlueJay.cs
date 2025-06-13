@@ -4,6 +4,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class BlueJay : Bird
     {
+        public override string Texture => AddToPath(2);
         public BlueJay() : base(basicSpeed: 9) { }
         protected override Vector2 GetHomeLocation()
         {

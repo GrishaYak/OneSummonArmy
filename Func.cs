@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace OneSummonArmy.AI
+namespace OneSummonArmy
 {
-    public class AIs
+    public class Func
     {
         public static Vector2 CounterGetHome(Player master, int stackedIndex, int totalIndexes)
         {
@@ -109,7 +109,11 @@ namespace OneSummonArmy.AI
 
             }
         }
-        
+        public static string GetMyTexturePath(string myPath, int num)
+        {
+            string res = Environment.CurrentDirectory;
+            return res;
+        }
 
     }
 }

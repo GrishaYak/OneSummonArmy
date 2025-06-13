@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
-using OneSummonArmy.AI;
+using OneSummonArmy;
 
 
 namespace OneSummonArmy.Content.Items
@@ -44,8 +44,8 @@ namespace OneSummonArmy.Content.Items
             player.AddBuff(Item.buffType, 2);
             int level = player.ownedProjectileCounts[Item.shoot] + 1;
             Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            int projId = AIs.ProjIdByLevel("Hornet", level);
-            int prevId = AIs.ProjIdByLevel("Hornet", level - 1);
+            int projId = Func.ProjIdByLevel("Hornet", level);
+            int prevId = Func.ProjIdByLevel("Hornet", level - 1);
             foreach (var proj in Main.ActiveProjectiles)
             {
                 if (proj.owner == player.whoAmI && proj.type == prevId)

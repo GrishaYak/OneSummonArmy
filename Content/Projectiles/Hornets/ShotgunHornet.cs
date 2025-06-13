@@ -10,6 +10,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
 {
     public class ShotgunHornet : Hornet
     {
+        public override string Texture => AddToPath(3);
         protected override void GetToAttackPosition(Vector2 enemyPos, float speed, float inertia, float dist)
         {
             base.GetToAttackPosition(enemyPos, speed, inertia, 100);

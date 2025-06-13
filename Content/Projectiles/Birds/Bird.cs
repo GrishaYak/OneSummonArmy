@@ -2,19 +2,27 @@
 using Terraria;
 using Terraria.ModLoader;
 using OneSummonArmy.Content.Buffs;
-using OneSummonArmy.AI;
+using OneSummonArmy;
 using System.Collections.Generic;
 using System;
 using Terraria.ID;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
-    public abstract class Bird(int idleFrame = 4, int movingFrameStart = 0, int movingFrameEnd = 4, int basicSpeed = 8) : ModProjectile()
+    public abstract class Bird : StandardProjectile
     {
-        readonly int idleFrame = idleFrame;
-        readonly float basicSpeed = basicSpeed;
-        readonly int movingFramesL = movingFrameStart, movingFramesR = movingFrameEnd;
 
+        readonly int idleFrame;
+        readonly float basicSpeed;
+        readonly int movingFramesL, movingFramesR;
+        public Bird(int idleFrame = 4, int movingFrameStart = 0, int movingFrameEnd = 4, int basicSpeed = 8)
+        {
+            this.idleFrame = idleFrame;
+            this.basicSpeed = basicSpeed;
+            movingFramesL = movingFrameStart;
+            movingFramesR = movingFrameEnd;
+            sunsTexture = AddDirToPath("Birds");
+        }
         protected virtual void AdditionalStaticDefaults() { }
         public override void SetStaticDefaults()
         {
@@ -38,7 +46,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             Projectile.minionSlots = 0f;
             Projectile.penetrate = -1;
             Projectile.hide = false;
-            AIs.GetMyGroupIndex(Projectile, out var index, out var _);
+            Func.GetMyGroupIndex(Projectile, out var index, out var _);
             Projectile.localAI[0] = index;
             AdditionalDefaults();
         }
@@ -92,10 +100,10 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         {
             CheckActive(player);
             int level = player.ownedProjectileCounts[ModContent.ProjectileType<BirdCounter>()];
-            if (Projectile.type != AIs.ProjIdByLevel("Bird", level))
+            if (Projectile.type != Func.ProjIdByLevel("Bird", level))
             {
                 var source = player.GetSource_FromThis();
-                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, AIs.ProjIdByLevel("Bird", level), 0, 0);
+                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, Func.ProjIdByLevel("Bird", level), 0, 0);
                 proj.Center = Projectile.Center;
                 Projectile.Kill();
                 return;

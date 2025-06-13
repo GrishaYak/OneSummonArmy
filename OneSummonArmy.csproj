@@ -8,6 +8,7 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Assets\Textures\Projectiles\Counter.png" />
 	  <None Remove="Content\Items\StandardStaff.png" />
 	</ItemGroup>
 

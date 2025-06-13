@@ -1,17 +1,16 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
-using OneSummonArmy.AI;
+using OneSummonArmy;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
 using Terraria.DataStructures;
 
 namespace OneSummonArmy.Content.Projectiles
 {
-    public abstract class Counter(int buffType) : ModProjectile()
+    public abstract class Counter(int buffType) : StandardProjectile()
     {
         int serial;
         protected virtual void SetAdditionalDefaults() { }
-        public override string Texture => "OneSummonArmy/Content/Projectiles/Counter";
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;
@@ -54,7 +53,7 @@ namespace OneSummonArmy.Content.Projectiles
             Player player = Main.player[Projectile.owner];
             CheckActive(player);
             int cnt = player.ownedProjectileCounts[Projectile.type];
-            Vector2 home = AIs.CounterGetHome(player, serial, cnt);
+            Vector2 home = Func.CounterGetHome(player, serial, cnt);
             Projectile.Center = home;
             if (Projectile.frameCounter >= 5)
             {

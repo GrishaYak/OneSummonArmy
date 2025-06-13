@@ -11,6 +11,7 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
 {
     public class CopperS : Slime
     {
-     
+        public override string Texture => AddToPath("C");
+
     }
 }

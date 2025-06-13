@@ -1,5 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using OneSummonArmy.AI;
+using OneSummonArmy;
 using OneSummonArmy.Content.Buffs;
 using System;
 using System.Collections.Generic;
@@ -13,8 +13,11 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Projectiles.Slimes
 {
-    public abstract class Slime : ModProjectile
+    public abstract class Slime : StandardProjectile
     {
+        public Slime() {
+            sunsTexture = AddDirToPath("Slimes");
+        }
         bool onTildeCollide_checker = true;
         float n = 0f;
         int onGroundCounter = 0;

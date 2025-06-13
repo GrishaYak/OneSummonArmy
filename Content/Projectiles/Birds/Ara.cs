@@ -5,6 +5,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public class Ara : Bird
     {
+        public override string Texture => AddToPath(5);
         public Ara() : base(idleFrame: 0, movingFrameStart: 1, movingFrameEnd: 6, basicSpeed: 12) { }
 
 
