@@ -30,26 +30,7 @@ namespace OneSummonArmy.Content.Items
             Item.value = Item.sellPrice(silver: 70);
             Item.reuseDelay = 2;
         }
-        public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
-        {
-            if (player.numMinions == player.maxMinions) { return false; }
-            player.AddBuff(Item.buffType, 2);
-            int level = player.ownedProjectileCounts[Item.shoot] + 1;
-            Projectile.NewProjectileDirect(source, player.Center, Vector2.Zero, Item.shoot, 0, 0f);
-            int projId = Func.ProjIdByLevel("Hornet", level);
-            int prevId = Func.ProjIdByLevel("Hornet", level - 1);
-            foreach (var proj in Main.ActiveProjectiles)
-            {
-                if (proj.owner == player.whoAmI && proj.type == prevId)
-                {
-                    var newProj = Projectile.NewProjectileDirect(source, proj.position, proj.velocity, projId, damage, knockback, player.whoAmI);
-                    newProj.Center = proj.Center;
-                    proj.Kill();
-                    return false;
-                }
-            }
-            Projectile.NewProjectileDirect(source, position, velocity, projId, damage, knockback, player.whoAmI);
-            return false;
-        }
+        protected override string TypeString { get => "Hornet"; }
+
     }
 }

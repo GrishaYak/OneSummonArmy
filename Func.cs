@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using OneSummonArmy.Content.Projectiles.Birds;
+using OneSummonArmy.Content.Projectiles.Flinxes;
 using OneSummonArmy.Content.Projectiles.Hornets;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,14 @@ namespace OneSummonArmy
                         2 => ModContent.ProjectileType<RifleHornet>(),
                         3 => ModContent.ProjectileType<ShotgunHornet>(),
                         _ => ModContent.ProjectileType<BeeHornet>()
+                    };
+                case "Fllinx":
+                    return level switch
+                    {
+                        1 => ModContent.ProjectileType<Flinx1>(),
+                        2 => ModContent.ProjectileType<Flinx2>(),
+                        3 => ModContent.ProjectileType<Flinx3>(),
+                        _ => ModContent.ProjectileType<Flinx4>()
                     };
                 default:
                     throw new NotImplementedException();
