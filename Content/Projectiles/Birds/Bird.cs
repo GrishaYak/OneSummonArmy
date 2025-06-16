@@ -22,6 +22,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
             movingFramesL = movingFrameStart;
             movingFramesR = movingFrameEnd;
             sonsTexture = AddDirToPath("Birds");
+            buffType = ModContent.BuffType<BirdBuff>();
         }
         protected virtual void AdditionalStaticDefaults() { }
         public override void SetStaticDefaults()
@@ -57,22 +58,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
         }
         public override bool? CanCutTiles() { return false; }
         public override bool MinionContactDamage() { return true; }
-        bool CheckActive(Player owner)
-        {
-            if (owner.dead || !owner.active)
-            {
-                owner.ClearBuff(ModContent.BuffType<BirdBuff>());
-
-                return false;
-            }
-
-            if (owner.HasBuff(ModContent.BuffType<BirdBuff>()))
-            {
-                Projectile.timeLeft = 2;
-            }
-
-            return true;
-        }
+        
         protected virtual Vector2 GetHomeLocation()
         {
             var home = Projectile.AI_158_GetHomeLocation(Main.player[Projectile.owner], (int) Projectile.localAI[0]);

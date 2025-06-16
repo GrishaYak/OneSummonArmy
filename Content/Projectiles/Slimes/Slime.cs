@@ -17,6 +17,7 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
     {
         public Slime() {
             sonsTexture = AddDirToPath("Slimes");
+            buffType = ModContent.BuffType<SlimeBuff>();
         }
         bool onTildeCollide_checker = true;
         float n = 0f;
@@ -67,22 +68,6 @@ namespace OneSummonArmy.Content.Projectiles.Slimes
         
         public override bool? CanCutTiles() { return false; }
         public override bool MinionContactDamage() { return true; }
-        bool CheckActive(Player player)
-        {
-            if (player.dead || !player.active)
-            {
-                player.ClearBuff(ModContent.BuffType<SlimeBuff>());
-
-                return false;
-            }
-
-            if (player.HasBuff(ModContent.BuffType<SlimeBuff>()))
-            {
-                Projectile.timeLeft = 2;
-            }
-
-            return true;
-        }
         public override void AI()
         {
             Player player = Main.player[Projectile.owner];

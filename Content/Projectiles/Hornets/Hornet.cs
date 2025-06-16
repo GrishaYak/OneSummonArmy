@@ -15,6 +15,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         public Hornet()
         {
             sonsTexture = AddDirToPath("Hornets");
+            buffType = ModContent.BuffType<HornetBuff>();
         }
         private int reloadCounter = 0;
         protected int ReloadCounter
@@ -47,17 +48,11 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
         {
             Projectile.damage = deafaultDamage;
         }
-        protected virtual void AdditionalStaticDefaults() { }
         public override void SetStaticDefaults()
         {
+            base.SetStaticDefaults();
             Main.projFrames[Projectile.type] = 3;
-            Main.projPet[Projectile.type] = true;
-            ProjectileID.Sets.MinionTargettingFeature[Projectile.type] = true;
-            ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
-            ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
-            AdditionalStaticDefaults();
         }
-        protected virtual void AdditionalDefaults() { }
         public override void SetDefaults()
         {
             Projectile.netImportant = true;
@@ -69,20 +64,6 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             Projectile.minionSlots = 0f;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-            AdditionalDefaults();
-        }
-        bool CheckActive(Player player)
-        {
-            if (player.dead || !player.active)
-            {
-                player.ClearBuff(ModContent.BuffType<HornetBuff>());
-                return false;
-            }
-            if (player.HasBuff<HornetBuff>())
-            {
-                Projectile.timeLeft = 2;
-            }
-            return true;
         }
         void Move(Vector2 direction, float speed, float inertia)
         {

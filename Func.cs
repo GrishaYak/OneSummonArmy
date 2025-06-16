@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using OneSummonArmy.Content.Buffs;
 using OneSummonArmy.Content.Projectiles.Birds;
 using OneSummonArmy.Content.Projectiles.Flinxes;
 using OneSummonArmy.Content.Projectiles.Hornets;
@@ -117,11 +118,6 @@ namespace OneSummonArmy
                     throw new NotImplementedException();
 
             }
-        }
-        public static string GetMyTexturePath(string myPath, int num)
-        {
-            string res = Environment.CurrentDirectory;
-            return res;
         }
 
     }
