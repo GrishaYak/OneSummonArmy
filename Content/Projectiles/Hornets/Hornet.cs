@@ -5,13 +5,13 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using OneSummonArmy.Content.Buffs;
-using OneSummonArmy;
-using OneSummonArmy.Content.Projectiles.Birds;
+using static OneSummonArmy.Func;
 
 namespace OneSummonArmy.Content.Projectiles.Hornets
 {
     public abstract class Hornet : StandardProjectile
     {
+        protected override string TypeString => "Hornet";
         public Hornet()
         {
             sonsTexture = AddDirToPath("Hornets");
@@ -39,15 +39,7 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             get => stage == 1; 
             set => stage = value ? 1 : 0; 
         }
-        readonly int deafaultDamage = 12;
-        protected void ScaleDamage(double scale)
-        {
-            Projectile.damage = (int)(Projectile.damage * scale);
-        }
-        protected void SetDamageToDefault()
-        {
-            Projectile.damage = deafaultDamage;
-        }
+        protected override int DefaultDamage => 12;
         public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
@@ -64,14 +56,6 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
             Projectile.minionSlots = 0f;
             Projectile.tileCollide = false;
             Projectile.ignoreWater = true;
-        }
-        void Move(Vector2 direction, float speed, float inertia)
-        {
-            Move(direction * speed, inertia);
-        }
-        void Move(Vector2 velocity, float inertia)
-        {
-            Projectile.velocity = (Projectile.velocity * inertia + velocity) / (inertia + 1f);
         }
         int FindTarget(ref float range, ref Vector2 targetPos)
         {
@@ -201,24 +185,8 @@ namespace OneSummonArmy.Content.Projectiles.Hornets
                 Projectile.velocity *= 1.01f;
             }
         }
-        void Basics(Player player, int level)
-        {
-            CheckActive(player);
-            if (Projectile.type != Func.ProjIdByLevel("Hornet", level))
-            {
-                var source = player.GetSource_FromThis();
-                var proj = Projectile.NewProjectileDirect(source, Projectile.position, Projectile.velocity, Func.ProjIdByLevel("Hornet", level), 12, 2f);
-                proj.Center = Projectile.Center;
-                Projectile.Kill();
-                return;
-            }
-        }
-
         public override void AI()
         {
-            // Projectile.ai[1] is used to support frequency of shooting
-            // ai[0] == 1 means "should get to idlePos
-            // ai[0] == 0 means "ready to attack"
             
             Player player = Main.player[Projectile.owner];
             int level = player.ownedProjectileCounts[ModContent.ProjectileType<HornetCounter>()];

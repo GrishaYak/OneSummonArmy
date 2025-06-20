@@ -7,10 +7,14 @@ using Terraria.DataStructures;
 
 namespace OneSummonArmy.Content.Projectiles
 {
-    public abstract class Counter(int buffType) : StandardProjectile()
+    public abstract class Counter : StandardProjectile
     {
-        int serial;
-        protected virtual void SetAdditionalDefaults() { }
+        readonly int serial;
+        public Counter(int buffType = -1)
+        {
+            base.buffType = buffType != -1 ? buffType : base.buffType;
+            serial = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
+        }
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;
@@ -26,27 +30,6 @@ namespace OneSummonArmy.Content.Projectiles
             Projectile.minionSlots = 1f;
             Projectile.DamageType = DamageClass.Summon;
             Projectile.tileCollide = false;
-            SetAdditionalDefaults();
-        }
-        public override void OnSpawn(IEntitySource source)
-        {
-            serial = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
-        }
-        public virtual bool CheckActive(Player owner)
-        {
-            if (owner.dead || !owner.active)
-            {
-                owner.ClearBuff(buffType);
-
-                return false;
-            }
-
-            if (owner.HasBuff(buffType))
-            {
-                Projectile.timeLeft = 2;
-            }
-
-            return true;
         }
         public override void AI()
         {

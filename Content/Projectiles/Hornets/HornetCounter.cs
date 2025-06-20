@@ -3,7 +3,11 @@ using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Projectiles.Hornets
 {
-    public class HornetCounter() : Counter(ModContent.BuffType<HornetBuff>())
+    public class HornetCounter : Counter
     {
+        public HornetCounter()
+        {
+            buffType = ModContent.BuffType<HornetBuff>();
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace OneSummonArmy.Content.Projectiles.Birds
 {
     public abstract class Bird : StandardProjectile
     {
-
+        protected override string TypeString => "Bird";
         readonly int idleFrame;
         readonly float basicSpeed;
         readonly int movingFramesL, movingFramesR;

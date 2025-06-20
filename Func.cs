@@ -119,6 +119,59 @@ namespace OneSummonArmy
 
             }
         }
-
+        public static int Max(params int[] nums)
+        {
+            int max = 0;
+            foreach (var num in nums)
+            {
+                if (max < num) { max = num; }
+            }
+            return max;
+        }
+        public static float Max(params float[] nums)
+        {
+            float max = 0f;
+            foreach(var num in nums)
+            {
+                if (max < num) { max = num; }
+            }
+            return max;
+        }
+        public static double Max(params double[] nums)
+        {
+            double max = 0;
+            foreach (var num in nums)
+            {
+                if (max < num) { max = num; }
+            }
+            return max;
+        }
+        public static int Min(params int[] nums)
+        {
+            int min = int.MaxValue;
+            foreach (var num in nums)
+            {
+                if (min > num) { min = num; }
+            }
+            return min;
+        }
+        public static float Min(params float[] nums)
+        {
+            float min = float.MaxValue;
+            foreach (var num in nums)
+            {
+                if (min > num) { min = num; }
+            }
+            return min;
+        }
+        public static double Min(params double[] nums)
+        {
+            double min = double.MaxValue;
+            foreach (var num in nums)
+            {
+                if (min > num) { min = num; }
+            }
+            return min;
+        }
     }
 }
