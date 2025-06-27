@@ -24,8 +24,9 @@ namespace OneSummonArmy.Content.Projectiles
             ProjectileID.Sets.MinionSacrificable[Projectile.type] = true;
             ProjectileID.Sets.CultistIsResistantTo[Projectile.type] = true;
         }
-        protected bool CheckActive(Player player)
+        protected virtual bool CheckActive(Player player, int buffType=-1)
         {
+            buffType = buffType != -1 ? buffType : this.buffType;
             if (player.dead || !player.active)
             {
                 player.ClearBuff(buffType);
@@ -37,6 +38,7 @@ namespace OneSummonArmy.Content.Projectiles
             }
             return true;
         }
+
         public override void SetDefaults()
         {
             Projectile.minion = true;

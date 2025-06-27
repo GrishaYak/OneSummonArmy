@@ -1,13 +1,14 @@
 ﻿using OneSummonArmy.Content.Buffs;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Projectiles.Flinxes
 {
-    public class FlinxCounter : Counter
+    public class FlinxCounter() : Counter()
     {
-        public FlinxCounter()
+        protected override bool CheckActive(Player player, int buffType = -1)
         {
-            buffType = ModContent.BuffType<FlinxBuff>();
+            return base.CheckActive(player, ModContent.BuffType<FlinxBuff>());
         }
     }
 }

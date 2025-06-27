@@ -1,0 +1,1 @@
+ Fix a problem with despawning minions when you are trying to replace them with another one

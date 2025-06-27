@@ -9,12 +9,6 @@ namespace OneSummonArmy.Content.Projectiles
 {
     public abstract class Counter : StandardProjectile
     {
-        readonly int serial;
-        public Counter(int buffType = -1)
-        {
-            base.buffType = buffType != -1 ? buffType : base.buffType;
-            serial = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
-        }
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;
@@ -36,6 +30,8 @@ namespace OneSummonArmy.Content.Projectiles
             Player player = Main.player[Projectile.owner];
             CheckActive(player);
             int cnt = player.ownedProjectileCounts[Projectile.type];
+
+            int serial = Main.player[Projectile.owner].ownedProjectileCounts[Projectile.type];
             Vector2 home = Func.CounterGetHome(player, serial, cnt);
             Projectile.Center = home;
             if (Projectile.frameCounter >= 5)

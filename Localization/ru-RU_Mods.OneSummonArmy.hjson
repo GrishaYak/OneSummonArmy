@@ -12,8 +12,8 @@ Items: {
 	}
 
 	HornetStaff: {
-		DisplayName: Посох шершней
 		Tooltip: Призывает шершня, который будет высматривать противников
+		DisplayName: Посох шершней
 	}
 
 	FlinxStaff: {

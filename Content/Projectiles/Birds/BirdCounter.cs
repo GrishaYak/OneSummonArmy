@@ -1,15 +1,16 @@
 ﻿using OneSummonArmy.Content.Buffs;
+using Terraria;
 using Terraria.DataStructures;
 using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Projectiles.Birds
 {
-    public class BirdCounter : Counter
+    public class BirdCounter() : Counter()
     {
-        public BirdCounter()
+        protected override bool CheckActive(Player player, int buffType = -1)
         {
-            buffType = ModContent.BuffType<BirdBuff>();
+            return base.CheckActive(player, ModContent.BuffType<BirdBuff>());
         }
-        
+
     }
 }

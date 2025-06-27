@@ -1,13 +1,14 @@
 ﻿using OneSummonArmy.Content.Buffs;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace OneSummonArmy.Content.Projectiles.Hornets
 {
-    public class HornetCounter : Counter
+    public class HornetCounter() : Counter()
     {
-        public HornetCounter()
+        protected override bool CheckActive(Player player, int buffType = -1)
         {
-            buffType = ModContent.BuffType<HornetBuff>();
+            return base.CheckActive(player, ModContent.BuffType<HornetBuff>());
         }
     }
 }
